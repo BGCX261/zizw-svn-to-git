@@ -1,0 +1,77 @@
+
+<project name="JSParser">
+	<target name="generate-js-parser">
+		<java classname="org.antlr.Tool" fork="true">
+			<classpath>
+				<pathelement path="${basedir}/downloads/antlrworks-1.1.4.jar"/>
+			</classpath>
+			<arg value="-Xconversiontimeout"/>
+			<arg value="0"/>
+			<arg value="-Xnoinlinedfa"/>
+			<arg value="${basedir}/src/com/honmansoft/jsparser/JS.g"/>
+		</java>
+	</target>
+	<target name="generate-formatter-parser">
+		<java classname="org.antlr.Tool" fork="true">
+			<classpath>
+				<pathelement path="${basedir}/downloads/antlrworks-1.1.4.jar"/>
+			</classpath>
+			<arg value="-Xconversiontimeout"/>
+			<arg value="0"/>
+			<arg value="-Xnoinlinedfa"/>
+			<arg value="-o"/>
+			<arg value="${basedir}/tools/com/honmansoft/tools/"/>
+			<arg value="${basedir}/tools/com/honmansoft/tools/ECMA_262_3rd_AnnexA_.g"/>
+		</java>
+	</target>
+	<target name="download">
+		<mkdir dir="${basedir}/downloads"/>
+		<get 
+			verbose="true"
+			usetimestamp="true"
+			dest="${basedir}/downloads/ECMA-262.pdf" 
+			src="http://www.ecma-international.org/publications/files/ecma-st/ECMA-262.pdf"/>
+		<get 
+			verbose="true"
+			usetimestamp="true"
+			dest="${basedir}/downloads/DerivedGeneralCategory.txt" 
+			src="http://www.unicode.org/Public/5.0.0/ucd/extracted/DerivedGeneralCategory.txt"/>
+		<get 
+			verbose="true"
+			usetimestamp="true"
+			dest="${basedir}/downloads/antlrworks-1.1.4.jar" 
+			src="http://www.antlr.org/download/antlrworks-1.1.4.jar"/>
+	</target>
+	<target name="clean">
+	</target>
+	<target name="clean-call" depends="clean">
+		<delete dir="${basedir}/downloads"></delete>
+	</target>
+	<target name="extract-text-from-pdf">
+		<java classname="org.pdfbox.ExtractText" fork="true">
+			<classpath>
+				<pathelement path="${user.home}/.m2/repository/pdfbox/pdfbox/0.7.3/pdfbox-0.7.3.jar"/>
+				<pathelement path="${user.home}/.m2/repository/bouncycastle/bcmail-jdk14/136/bcmail-jdk14-136.jar"/>
+				<pathelement path="${user.home}/.m2/repository/bouncycastle/bcprov-jdk14/136/bcprov-jdk14-136.jar"/>
+				<pathelement path="${user.home}/.m2/repository/org/jempbox/jempbox/0.2.0/jempbox-0.2.0.jar"/>
+				<pathelement path="${user.home}/.m2/repository/org/fontbox/fontbox/0.1.0/fontbox-0.1.0.jar"/>
+			</classpath>
+			<arg value="-encoding"/>
+			<arg value="UTF-16"/>
+			<arg value="-startPage"/>
+			<arg value="163"/>
+			<arg value="-endPage"/>
+			<arg value="179"/>
+			<arg value="${basedir}/downloads/ECMA-262.pdf"/>
+			<arg value="${basedir}/downloads/ECMA-262-AnnexA.txt"/>
+		</java>
+		<java classname="com.honmansoft.tools.ECMA_262_3rd_AnnexA_Formatter" fork="true">
+			<classpath>
+				<pathelement path="${basedir}/downloads/antlrworks-1.1.4.jar"/>
+				<pathelement path="${basedir}/bin"/>
+			</classpath>
+			<arg value="${basedir}/downloads/ECMA-262-AnnexA.txt"/>
+			<arg value="${basedir}/downloads/ECMA-262-AnnexA-Formatted.txt"/>
+		</java>
+	</target>
+</project>

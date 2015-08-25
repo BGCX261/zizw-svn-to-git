@@ -1,0 +1,56 @@
+
+<html>
+	<head>
+		<title>SheetBaseTest</title>
+		<script src="../../../../../../jsunit/app/jsUnitCore.js"></script>		
+		<script src="../../js/core/JSLoader.js"></script>
+		<script>
+			var jsloader = new JSLoader(document.URL.substring(0,document.URL.indexOf("prot")));
+			var domutils = jsloader.resolve("core.domutils");
+		</script>		
+		<script src="../../../../../../selenium-core/core/scripts/htmlutils.js"></script>							
+		<script src="../../../../../../selenium-core/core/scripts/selenium-logging.js"></script>				
+		<script src="../../../../../../selenium-core/core/scripts/selenium-browserdetect.js"></script>		
+		<script src="../../../../../../selenium-core/core/xpath/misc.js"></script>		
+		<script src="../../../../../../selenium-core/core/xpath/xpath.js"></script>
+		<script src="../../../../../../selenium-core/core/scripts/selenium-browserbot.js"></script>
+		<script src="../../../../../../selenium-core/core/scripts/selenium-api.js"></script>
+		<script>
+			var bb = BrowserBot.createForWindow(window);
+			var sel = new Selenium(bb);
+			var AUI = jsloader.resolve("tarah.AUI");
+			
+			var SheetBase = jsloader.resolve("tarah.SheetBase");
+			var sheetBase = null;
+			
+			function setUp() {
+				sheetBase = new SheetBase(document.body);
+				//
+				sheetBase.appendColHeaderCols(10);
+				sheetBase.appendGridCols(10);
+				sheetBase.resetRowHeaderSlot();
+				//
+				sheetBase.appendRowHeaderRows(15);
+				sheetBase.appendGridRows(15);
+				sheetBase.resetColHeaderSlot();
+				//
+				sheetBase.resetGridSlot();
+				//
+				sheetBase.setSheetWidth(900);
+				sheetBase.setSheetHeight(400);
+				//
+				sheetBase.setCornerSlotWidth(80);
+				sheetBase.setCornerSlotHeight(50);
+			}
+			
+			function tearDown() {
+				sheetBase.destroy();
+			}
+			
+			
+		</script>
+		<link href="../../css/default.css" rel="stylesheet" type="text/css"/>
+	</head>
+	<body onload="setUp();" onunload="tearDown();">
+	</body>
+</html>

@@ -1,0 +1,76 @@
+
+<html>
+	<head>
+		<title>CalendarBaseDemo</title>
+		<script src="../../js/core/JSLoader.js"></script>
+		<script>
+			var jsloader = new JSLoader(document.URL.substring(0,document.URL.indexOf("demo")));
+			var CalendarBase = jsloader.resolve("ui.CalendarBase");
+			var calendar = null;
+			
+			var CalendarService = function() {
+				this.selectedDay = {
+					week: 2,
+					day: 3
+				};
+				this.year = 1970;
+				//
+				this.getYear = function() {
+					return this.year;
+				};
+				this.getMonth = function() {
+					return 1;
+				};
+				this.getMatrix = function() {
+					return [
+						[ 21, 22, 23, 24, 25, 26, 27 ],
+						[ 28, 29, 30, 31, 01, 02, 03 ],
+						[ 04, 05, 06, 07, 08, 09, 10 ],
+						[ 11, 12, 13, 14, 15, 16, 17 ],
+						[ 18, 19, 20, 21, 22, 23, 24 ],
+						[ 25, 26, 27, 28, 29, 30, 31 ],
+						[ 01, 02, 03, 04, 05, 06, 07 ]
+					];
+				};
+				this.getFirstDay = function() {
+					return {week:1,day:4};
+				};
+				this.getLastDay = function() {
+					return {week:5,day:6};
+				};
+				this.getSelectedDay = function() {
+					return this.selectedDay;
+				};
+				this.selectDay = function(week, day) {
+					this.selectedDay.week = week;
+					this.selectedDay.day = day;
+				};
+				this.prevYear = function() {
+					this.year--;
+				};
+				this.nextYear = function() {
+					this.year++;
+				};
+			};
+			
+			function init() {
+				calendar = new CalendarBase(root);
+				calendar.element.style.backgroundColor = "darkseagreen";
+				calendar.setCalendarService(new CalendarService());
+				calendar.refresh();
+			}
+			function destroy() {
+				calendar.destroy();
+			}
+		</script>
+	</head>
+	<body onload="init()" onunload="destroy()">
+		<div id="root" style="position: absolute; width: 400px; height: 300px"></div>
+		<div id="text" style="position: absolute; width: 400px; left: 450px">
+			<ul>
+				<li>尺寸百分百
+				<li>显示年份和月份
+			</ul>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,151 @@
+
+<html>
+	<head>
+		<title>test calendar</title>
+		<script src="js/lang/utils/CalendarModel.js"></script>
+	</head>
+	<body>
+		<table>
+			<tbody id="matrix">
+				<tr>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+			</tbody>
+		</table>
+		<input type="button" value="Previous Month" onclick="previousMonth()"/>
+		<input type="button" value="Next Month" onclick="nextMonth()"/>
+		<input type="button" value="Previous" onclick="previous()"/>
+		<input type="button" value="Next" onclick="next()"/>
+		<input type="button" value="Today" onclick="today()"/>
+	</body>
+	
+		<script>
+			
+			var elemMatrix = document.getElementById("matrix");
+			var calendarModel = new CalendarModel();
+			
+			function refresh() {
+				var matrix = calendarModel.getMatrix();
+				for ( var i = 0; i < 7; i++ ) {
+					var row = elemMatrix.rows[i];
+					for ( var j = 0; j < 7; j++ ) {
+						var cell = row.cells[j];
+						cell.innerHTML = matrix[i][j].value;
+						if ( matrix[i][j].isInCurrentMonth ) {
+							cell.style.color = "";
+						} else {
+							cell.style.color = "#888888";
+						}
+						if ( matrix[i][j].isWeekEnd ) {
+							cell.style.backgroundColor = "#E8EEF7";
+						} else {
+							cell.style.backgroundColor = "";
+						}
+						if ( matrix[i][j].isCurrentDay ) {
+							cell.style.backgroundColor = "pink";
+						} else {
+							cell.style.backgroundColor = "";
+						}
+						if ( matrix[i][j].isToday ) {
+							cell.style.backgroundColor = "#557799";
+							cell.style.borderWidth = "1px";
+							cell.style.borderStyle = "solid";
+							cell.style.borderTopColor = "#224466";
+							cell.style.borderRightColor = "#99bbdd";
+							cell.style.borderBottomColor = "#99bbdd";
+							cell.style.borderLeftColor = "#224466";
+						} else {
+							cell.style.borderWidth = "0px";
+						}
+					}
+				}
+			}
+			
+			function previous() {
+				calendarModel.previous();
+				refresh();
+			}
+			
+			function next() {
+				calendarModel.next();
+				refresh();
+			}
+
+			function previousMonth() {
+				calendarModel.previousMonth();
+				refresh();
+			}
+			
+			function nextMonth() {
+				calendarModel.nextMonth();
+				refresh();
+			}
+						
+			function today() {
+				calendarModel.gotoToday();
+				refresh();
+			}
+			
+			refresh();
+		</script>
+</html>

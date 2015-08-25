@@ -1,0 +1,56 @@
+<html>
+	<head>
+		<title>LoginServiceTest</title>
+		<script src="../../js/core/JSLoader.js"></script>
+		<script src="../../../../jsunit/app/jsUnitCore.js"></script>
+		<script>
+			var jsloader = new JSLoader(document.URL.substring(0, document.URL.indexOf("test")));
+		</script>
+		<script>
+			var LoginService = null;
+			var Connection = null;
+			function setUp() {
+				LoginService = jsloader.resolve("server.LoginService");
+				Connection = jsloader.resolve("server.impl.Connection");
+				var conn = new Connection("tarah");
+				try {
+					conn.execute("insert into user (username, password) values (?, ?)", ["goodUsername", "goodPassword"]);
+				} catch(ex) {
+					throw new Error("SQL error: " + ex.message);
+				} finally {				
+					try {
+						conn.destroy();
+					} catch(ex) {
+						throw new Error("SQL error: " + ex.message);
+					}
+				}
+			}
+			function tearDown() {
+				LoginService = jsloader.resolve("server.LoginService");
+				Connection = jsloader.resolve("server.impl.Connection");
+				var conn = new Connection("tarah");
+				try {
+					conn.execute("delete from user where username = ?", ["goodUsername"]);
+				} catch(ex) {
+					throw new Error("SQL error: " + ex.message);
+				} finally {				
+					try {
+						conn.destroy();
+					} catch(ex) {
+						throw new Error("SQL error: " + ex.message);
+					}
+				}
+			}
+			function testLoginPassed() {
+				var passed = LoginService.login("goodUsername", "goodPassword");
+				assertTrue("Can not pass.", passed);
+			}
+			function testLoginFailed() {
+				var passed = LoginService.login("badUsername", "badPassword");
+				assertFalse("Passed.", passed);
+			}
+		</script>
+	</head>
+	<body>
+	</body>
+</html>

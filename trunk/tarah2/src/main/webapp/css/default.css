@@ -1,0 +1,207 @@
+body {
+	width: 100%;
+	height: 100%;
+	margin: 0px;
+	overflow: hidden;
+}
+
+.calendar-dayOfCurrentMonth {
+	font-weight: bold;
+}
+
+.calendar-year {
+	font-weight: bold;
+}
+
+.calendar-month {
+	font-weight: bold;
+}
+
+.calendar-nextYear {
+	font-weight: bold;
+}
+
+.calendar-prevYear {
+	font-weight: bold;
+}
+
+.calendar-day {
+	border: solid 1px white;
+}
+
+.calendar-daySelected {
+	border: solid 1px black;
+}
+
+/* ------------------- */
+.tabPanel {
+	position: absolute;				/* SET by creation */
+	width: 400px;					/* SET by resize */
+	height: 300px;					/* SET by resize */
+}
+.tabPanel-tableSlot {
+	position: absolute;				/* SET by creation */
+	width: 100%;					/* FIXED */
+	height: 20px;					/* FIXED */
+}
+.tabPanel-pageSlot {
+	position: absolute;				/* SET by creation */
+	width: 100%;					/* FIXED */
+}
+.tabPanel-table {
+	width: 100%;
+	height: 100%;
+	font-size: 13px;
+}
+.tabPanel-page {
+	position: absolute;
+	display: none;
+}
+.tabPanel-button {
+	text-align: center;
+	cursor: pointer;
+	border: solid 1px black;
+}
+.tabPanel-buttonSelected {
+	text-align: center;
+	cursor: pointer;
+	border-top: solid 1px black;
+	border-left: solid 1px black;
+	border-right: solid 1px black;
+}
+.tabPanel-buttonLeftSpace {
+	border-bottom: solid 1px black;
+}
+.tabPanel-buttonMiddleSpace {
+	border-bottom: solid 1px black;
+}
+.tabPanel-buttonRightSpace {
+	border-bottom: solid 1px black;
+}
+.tabPanel-toolbar {
+	border-bottom: solid 1px black;
+	width: 100%;
+}
+
+/* ------------------- */
+
+.sheet-gridCell {
+	border-bottom: solid 1px black;
+	border-right: solid 1px black;
+}
+
+.sheet-gridCell-top {
+	border-top: solid 1px black;
+}
+
+.sheet-gridCell-left {
+	border-left: solid 1px black;
+}
+
+						
+			/* ======================================== */
+			/* Module Element                           */			
+			/* ======================================== */
+		
+			.sheet {
+				position: absolute;
+			}
+
+			/* ======================================== */
+			/* Corner                                   */			
+			/* ======================================== */
+			
+			.sheet-cornerSlot {
+				position: absolute;
+				left: 0px;						/* FIXED */
+				top: 0px;						/* FIXED */
+				background-color: white;
+				border: solid 1px black;
+				overflow: hidden;
+			}
+
+			/* ======================================== */
+			/* Column Header                            */			
+			/* ======================================== */
+			
+			.sheet-colHeaderSlot {
+				position: absolute;
+				top: 0px;						/* FIXED */
+				overflow: hidden;
+				padding-right: 1px;
+			}
+			.sheet-colHeaderTable {
+				height: 100%;
+				table-layout: fixed;
+			}
+			.sheet-colHeaderRow {
+				font-size: 13px;				/* FIXED */
+			}
+			.sheet-colHeaderCell {
+				border-right: solid 1px black;
+				border-top: solid 1px black;
+				border-bottom: solid 1px black;
+				width: 70px;					/* FIXED: TODO */
+				text-align: center;
+			}
+			.sheet-colHeaderCellDiv {
+				width: 100%;
+				height: 100%;
+				overflow: hidden;
+			}
+
+			/* ======================================== */
+			/* Grid                                     */			
+			/* ======================================== */
+
+			.sheet-gridSlot {
+				position: absolute;
+				overflow: auto;
+				padding-right: 1px;
+			}
+			.sheet-gridTable {
+				table-layout: fixed;
+			}
+			.sheet-gridRow {
+				height: 20px;					/* FIXED: TODO */
+				font-size: 13px;				/* FIXED */
+			}
+			.sheet-gridCell {
+				border-right: solid 1px black;
+				border-bottom: solid 1px black;
+				width: 70px;					/* FIXED: TODO */
+			}
+			.sheet-gridCellDiv {
+				width: 100%;
+				height: 100%;
+				overflow: hidden;
+			}
+			
+			/* ======================================== */
+			/* Row Header                               */			
+			/* ======================================== */
+			
+			.sheet-rowHeaderSlot {
+				position: absolute;
+				left: 0px;						/* FIXED */
+				overflow: hidden;
+			}
+			.sheet-rowHeaderTable {
+				table-layout: fixed;
+				width: 100%;
+			}
+			.sheet-rowHeaderRow {
+				height: 20px;					/* FIXED: TODO */
+				font-size: 13px;				/* FIXED */
+			}
+			.sheet-rowHeaderCell {
+				border-left: solid 1px black;
+				border-right: solid 1px black;
+				border-bottom: solid 1px black;
+				text-align: center;
+			}
+			.sheet-rowHeaderCellDiv {
+				width: 100%;
+				height: 100%;
+				overflow: hidden;
+			}

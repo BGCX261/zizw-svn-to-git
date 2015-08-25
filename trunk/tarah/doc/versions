@@ -1,0 +1,8 @@
+mysql					5.0.45-win32
+mysql-connector-java	3.0.17-ga
+tomcat					5.5.25
+seleniumRC				0.9.2
+	http://jira.openqa.org/browse/SRC-376
+junit					4.4
+rhino					1.6R7
+spring					2.5

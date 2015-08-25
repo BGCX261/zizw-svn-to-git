@@ -1,0 +1,21 @@
+<html>
+	<head>
+		<title>Tarah</title>
+		<script src="js/core/JSLoader.js"></script>
+		<script>
+			var jsloader = new JSLoader();
+			var DBValidator = jsloader.resolve("server.impl.dbvalidator.DBValidator");
+			var Application = jsloader.resolve("tarah.Application");
+			var app = null;
+			function init() {
+				DBValidator.doValidate();
+				app = new Application();
+			}
+			function destroy() {
+				app.destroy();
+			}
+		</script>
+	</head>
+	<body onload="init()" onunload="destroy()">
+	</body>
+</html>

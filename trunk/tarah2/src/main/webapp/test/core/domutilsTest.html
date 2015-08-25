@@ -1,0 +1,90 @@
+
+<html>
+	<head>
+		<title>domutilsTest</title>
+		<script src="../../../../../../jsunit/app/jsUnitCore.js"></script>		
+		<script src="../../js/core/JSLoader.js"></script>
+		<script>
+		
+			var jsloader = new JSLoader(document.URL.substring(0,document.URL.indexOf("test")));
+			var domutils = jsloader.resolve("core.domutils");
+			
+			// ------------------------------------------------------------
+			// domutils的责任是提供跨浏览器支持，放弃测试，人工确认
+			// ------------------------------------------------------------
+			
+			//
+			// isIE
+			//
+			function testIsIE() {
+				assertTrue(!!domutils.isIE);
+			}
+
+			//
+			// isFF
+			//
+			function testIsFF() {
+				assertTrue(!!domutils.isFF);
+			}
+
+			//
+			// attachListener
+			//
+			function testAttachListener() {
+				assertTrue(!!domutils.attachListener);
+			}
+			
+			//
+			// detachListener
+			//
+			function testDetachListener() {
+				assertTrue(!!domutils.detachListener);
+			}
+
+			//
+			// confirm
+			//			
+			function testConfirm() {
+				assertTrue(!!domutils.confirm);
+			}
+			
+			//
+			// alert
+			//			
+			function testAlert() {
+				assertTrue(!!domutils.alert);
+			}
+			
+			//
+			// hasClassName
+			//
+			function testHasClassName() {
+				assertTrue(!!domutils.hasClassName);
+			}
+
+			//
+			// addClassName
+			//
+			function testAddClassName() {
+				assertTrue(!!domutils.addClassName);
+			}
+			
+			//
+			// removeClassName
+			//
+			function testRemoveClassName() {
+				assertTrue(!!domutils.removeClassName);
+			}
+			
+			//
+			// toggleClassName
+			//
+			function testToggleClassName() {
+				assertTrue(!!domutils.toggleClassName);
+			}
+						
+		</script>
+	</head>
+	<body>
+	</body>
+</html>

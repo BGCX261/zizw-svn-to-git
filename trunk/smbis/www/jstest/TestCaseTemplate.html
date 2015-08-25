@@ -1,0 +1,41 @@
+<html>
+	<head>
+		<title>TestCaseTemplate</title>
+		<script>
+			var baseURL = null;
+			var isLocal = true;
+			var isIE = 0 == navigator.appName.indexOf("Microsoft");
+			if ( isLocal ) {
+				if ( isIE ) {
+					baseURL = document.URL.match(/.*\\www\\/)[0];
+				} else {
+					baseURL = document.URL.match(".*/www/")[0];
+				}
+			} else {
+				if ( isIE ) {
+					;
+				} else {
+					;
+				}
+			}
+			document.write("<base href='" + baseURL + "'/>");
+		</script>
+		<script type="text/javascript" src="jstest/jsUnitCore.js"></script>
+		<script type="text/javascript" src="js/com/honmansoft/ajax/jsloader.js"></script>
+		<script type="text/javascript">
+			function setUp() {
+				;
+			}
+			function tearDown() {
+				;
+			}
+		</script>
+	</head>
+	<body>
+		<div id="divRoot">
+		</div>
+	</body>
+	<script type="text/javascript">
+		var divRoot = document.getElementById("divRoot");
+	</script>
+</html>

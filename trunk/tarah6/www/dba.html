@@ -1,0 +1,44 @@
+<html>
+	<head>
+		<title>dba</title>
+		<script src="js/core/JSLoader.js"></script>
+		<script>
+			var jsloader = new JSLoader();
+			var Domutils = jsloader.resolve("core.Domutils");
+			var Connection = jsloader.resolve("server.impl.Connection");
+			function executeSqlList(path) {
+				var sqlList = jsloader.load(path);
+				var start = 0;
+				for ( var end = 0; -1 != end; start = end + 2 ) {
+					var end = sqlList.indexOf(";;", start);
+					var sql = sqlList.substring(start, -1==end?sqlList.length:end);
+					sql = Domutils.strip(sql);
+					if ( !sql ) {
+						continue;
+					}
+					try {
+						var conn = new Connection();
+						conn.execute(sql);
+						conn.destroy();
+					} catch(ex) {
+						alert("FUCK: " + ex.message);
+					}
+				}
+			}
+			function doCreate() {
+				executeSqlList("sql/create.sql");
+			}
+			function doPopulate() {
+				executeSqlList("sql/populate.sql");
+			}
+			function doDrop() {
+				executeSqlList("sql/drop.sql");
+			}
+		</script>
+	</head>
+	<body>
+		<input type="button" value="Create" onclick="doCreate()"/>
+		<input type="button" value="Populate" onclick="doPopulate()"/>
+		<input type="button" value="Drop" onclick="doDrop()"/>
+	</body>
+</html>

@@ -1,0 +1,26 @@
+
+<html>
+	<head>
+		<title>Tarah</title>		
+		<script src="js/core/JSLoader.js"></script>
+		<script>
+		</script>
+		<script>				
+			var jsloader = new JSLoader();
+			var Application = jsloader.resolve("tarah.Application");
+			var application = null;
+			var db = null;
+			function init() {
+				db = new (jsloader.resolve("server.DBTarah"))();
+				application = new Application(document.body);
+			}
+			function destroy() {
+				application.destroy();
+				db.destroy();
+			}
+		</script>
+		<link href="css/default.css" rel="stylesheet" type="text/css"/>
+	</head>
+	<body onload="init()" onunload="destroy()">
+	</body>
+</html>

@@ -1,0 +1,4 @@
+
+ # {
+  a. 显示当日表格[date, amount, desc]
+ }

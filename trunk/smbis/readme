@@ -1,0 +1,90 @@
+
+执行一条命令会产生一个对象
+一条命令会依赖多个别的对象
+对象知道它由有什么命令产生
+只有少数几条标准命令
+read: 把数据取到前端
+update: 把数据递到后端
+delete: 删除后端的数据
+create: 
+list:
+
+完全判断错误,这里根本还不涉及持久问题或Hibernate
+get
+post
+refresh
+
+get之后才能post
+get之后才能refresh
+post的返回结果等同于get
+refresh等同于最后一次get而不是post
+locate之后才能get
+
+23:23 2007-6-6
+
+通过id或目录结构去locate
+无所谓get和post的区别，只有命令的执行和redo
+一条命令结构中封装的内容包括：
+	是否需要用户输入？有哪些？验证规范分别是什么？是否使用之前的用户输入？是否从别的对象取得缺省值？
+	依赖哪些对象？是否需要刷新这些对象？
+
+TODO: 命令该如何执行？前后端的对象是否一一对应？适用js模拟后端，还是启动tomcat
+
+17:08 2007-6-7
+今天什么进展都没有,
+ 
+
+8:52 2007-6-19
+
+模版	数据表
+1	1
+1	n
+n	1
+
+10:20 2007-6-19
+
+用ant部署和反部署到tomcat,默认端口8080
+
+15:24 2007-6-19
+
+用ant总部署不上去,暂时手工部署
+
+14:25 2007-6-20
+
+指定一个版本号手工安装tomcat: servlet2.4/jsp2.0 apache-tomcat-5.5.23.zip
+指定一个版本号手工安装mysql: 5.0GA版 mysql-noinstall-5.0.41-win32.zip
+手工部署webApp
+
+15:03 2007-6-20
+
+选择一个smbis的建模对象,找不到,也就是说没有需求.考虑转而其助于ontology,想一想任何MIS是不是不外乎对增删改查的
+封装(create read update delete),考虑一下关系型数据库的本质,建议圈定范围,不要超出sql-92 entry level
+
+hibernate的跨数据库做的很好,可以考虑使用hibernate作为研究对象和直接使用
+ibatis也很有意思,使用原始sql,有必要的地方可以将hibernate和ibatis封装在一个界面下面
+
+10:56 2007-7-2
+
+初次访问将初始化数据库
+启用commons-logging,log4j
+    * fatal - Severe errors that cause premature termination. Expect these to be immediately visible on a status console. See also Internationalization  .
+    * error - Other runtime errors or unexpected conditions. Expect these to be immediately visible on a status console. See also Internationalization .
+    * warn - Use of deprecated APIs, poor use of API, 'almost' errors, other runtime situations that are undesirable or unexpected, but not necessarily "wrong". Expect these to be immediately visible on a status console. See also Internationalization .
+    * info - Interesting runtime events (startup/shutdown). Expect these to be immediately visible on a console, so be conservative and keep to a minimum. See also Internationalization .
+    * debug - detailed information on the flow through the system. Expect these to be written to logs only.
+    * trace - more detailed information. Expect these to be written to logs only.
+
+15:46 2007-7-2
+	先完成正常流程的usecase再不断丰富
+	
+	
+10:30 2007-7-18
+	目前的问题是过于追求大而全
+	
+10:30 2007-7-18
+	选定一个参考数据库,Derby
+		暂时不强求跨数据库
+		
+
+
+

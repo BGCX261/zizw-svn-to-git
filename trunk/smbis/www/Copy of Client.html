@@ -1,0 +1,293 @@
+
+<html>
+
+	<head>
+		<title>Client Test</title>
+		<script src="js/com/honmansoft/ajax/lang.js"></script>
+		<script>
+			var nodes = [];
+			var flushPoints = {};
+			var log = [];
+			function init() {
+				nodes.push(new Node(nodes.length, pickRootTypeName()));
+				for ( var i = 0; i < typeNameDictionary.length; i++ ) {
+					var option = document.createElement("option");
+					option.value = typeNameDictionary[i];
+					option.innerHTML = typeNameDictionary[i];
+					selTypes.appendChild(option);
+				}
+				for ( var i = 0; i < propertyNameDictionary.length; i++ ) {
+					var option = document.createElement("option");
+					option.value = propertyNameDictionary[i];
+					option.innerHTML = propertyNameDictionary[i];
+					selProperties.appendChild(option);
+				}
+			}
+			var Node = function(id, type) {
+				this.id = id;
+				this.type = type;
+				this.properties = {};
+				this.getId = function() {
+					return this.id;
+				};
+				this.getProperty = function(name) {
+					return this.properties[name];
+				};
+				this.setProperty = function(name, value) {
+					this.properties[name] = value;
+				};				
+			};
+			function createFlushPoint() {
+				if ( !selTypes.value || !selProperties.value)
+					return;
+				var value = selTypes.value + "." + selProperties.value;
+				flushPoints[value] = true;
+				var option = document.createElement("option");
+				option.value = value;
+				option.innerHTML = value;
+				selFlushPoints.appendChild(option);
+			}
+			function removeFlushPoint() {
+				if ( !selFlushPoints.value )
+					return;
+				delete flushPoints[selFlushPoints.value];
+				for ( var op = selFlushPoints.firstChild; op; op = op.nextSibling ) {
+					if ( op.selected ) {
+						selFlushPoints.removeChild(op);
+						break;
+					}
+				}
+			}
+			function change() {
+				if ( 0 == nodes.length )
+					return;
+				var action = {
+					nodeId: pickNode().id,
+					propertyName: pickPropertyName(),
+					propertyValue: pickPropertyValue()
+				};
+				execute(action, true);
+			}
+			function execute(action, doRecord) {
+				// execute
+				var node = nodes[action.nodeId];
+				node.setProperty(action.propertyName, action.propertyValue);
+				if ( !doRecord )
+					return;
+				// check flush point
+				var isFlushPoint = (flushPoints[node.type+"."+action.propertyName] ? true : false);
+				if ( isFlushPoint ) {
+					// flush
+					flush(action);
+					log = [];
+					tdBuffer.innerHTML = "";
+				} else {
+					// log
+					log.push(action);
+					var div = document.createElement("div");
+					div.innerHTML = lang.toJSONString(action);
+					tdBuffer.appendChild(div);
+				}
+			}
+			function pickNode() {
+				//Math.floor(Math.random() * nodes.length)
+				var nodeList = [];
+				for ( var i = 0; i < nodes.length; i++ )
+					nodes[i] && nodeList.push(nodes[i]);
+				var index = Math.floor(Math.random() * nodeList.length);
+				return nodeList[index];
+			}
+			var pickRootTypeName = function() {
+				return "Max";
+			};
+			var pickTypeName = function() {
+				return function() {
+					var index = Math.floor(Math.random() * typeNameDictionary.length);
+					return typeNameDictionary[index];
+				};
+			}();
+			var pickPropertyName = function() {
+				var dictionary = propertyNameDictionary;
+				return function() {
+					if ( ckRandom.checked ) {
+						var index = Math.floor(Math.random() * propertyNameDictionary.length);
+						return propertyNameDictionary[index];
+					} else if ( selProperties.value ) {
+						return selProperties.value;
+					} else {
+						var op = selProperties.firstChild;
+						return op.value;
+					}
+				};
+			}();
+			function pickPropertyValue() {
+				return Math.floor(Math.random() * 100);
+			}
+				var typeNameDictionary = [
+					"Max", "Maggie",
+					"Jake", "Molly",
+					"Buddy", "Lady",
+					"Bailey", "Sadie",
+					"Sam", "Lucy",
+					"Rocky", "Daisy",
+					"Buster", "Ginger",
+					"Casey", "Abby",
+					"Cody", "Sasha",
+					"Duke", "Sandy",
+					"Charlie", "Dakota",
+					"Jack", "Katie",
+					"Harley", "Annie",
+					"Rusty", "Chelsea",
+					"Toby", "Princess",
+					"Murphy", "Missy",
+					"Shelby", "Sophie",
+					"Sparky", "Bo",
+					"Barney", "Coco",
+					"Winston", "Tasha"
+				];
+				var propertyNameDictionary = [
+					"Jacob", "Emily",
+					"Michael", "Madison",
+					"Joshua", "Hannah",
+					"Matthew", "Emma",
+					"Ethan", "Alexis",
+					"Joseph", "Ashley",
+					"Andrew", "Abigail",
+					"Christopher", "Sarah",
+					"Daniel", "Samantha",
+					"Nicholas", "Olivia",
+					"William", "Elizabeth",
+					"Anthony", "Alyssa",
+					"David", "Lauren",
+					"Tyler", "Isabella",
+					"Alexander", "Grace",
+					"Ryan", "Jessica",
+					"John", "Brianna",
+					"James", "Taylor",
+					"Zachary", "Kayla",
+					"Brandon", "Anna",
+					"Jonathan", "Victoria",
+					"Justin", "Megan",
+					"Christian", "Sydney",
+					"Dylan", "Chloe",
+					"Samuel", "Rachel",
+					"Austin", "Jasmine",
+					"Jose", "Sophia",
+					"Benjamin", "Jennifer",
+					"Nathan", "Morgan",
+					"Logan", "Natalie",
+					"Kevin", "Julia",
+					"Gabriel", "Kaitlyn",
+					"Robert", "Hailey",
+					"Noah", "Destiny",
+					"Caleb", "Haley",
+					"Thomas", "Katherine",
+					"Jordan", "Nicole",
+					"Hunter", "Alexandra",
+					"Cameron", "Maria",
+					"Kyle", "Savannah",
+					"Elijah", "Stephanie",
+					"Jason", "Mia",
+					"Jack", "Mackenzie",
+					"Aaron", "Allison",
+					"Isaiah", "Amanda",
+					"Angel", "Jordan",
+					"Luke", "Jenna",
+					"Connor", "Faith",
+					"Luis", "Paige",
+					"Isaac", "Makayla",
+					"Brian", "Andrea",
+					"Juan", "Mary",
+					"Jackson", "Brooke",
+					"Eric", "Katelyn",
+					"Mason", "Rebecca",
+					"Adam", "Madeline",
+					"Evan", "Michelle",
+					"Carlos", "Kaylee",
+					"Charles", "Sara",
+					"Sean", "Kimberly",
+					"Gavin", "Zoe",
+					"Alex", "Kylie",
+					"Aidan", "Aaliyah",
+					"Bryan", "Sierra",
+					"Nathaniel", "Amber",
+					"Jesus", "Caroline",
+					"Ian", "Gabrielle",
+					"Steven", "Vanessa",
+					"Cole", "Alexa",
+					"Timothy", "Trinity",
+					"Cody", "Danielle",
+					"Adrian", "Erin",
+					"Seth", "Autumn",
+					"Sebastian", "Angelina",
+					"Devin", "Shelby",
+					"Lucas", "Gabriella",
+					"Richard", "Riley",
+					"Blake", "Jada",
+					"Julian", "Lily",
+					"Patrick", "Melissa",
+					"Trevor", "Jacqueline",
+					"Jared", "Angela",
+					"Miguel", "Ava",
+					"Chase", "Isabel",
+					"Dominic", "Bailey",
+					"Antonio", "Ariana",
+					"Xavier", "Jade",
+					"Jeremiah", "Melanie",
+					"Jaden", "Courtney",
+					"Alejandro", "Leah",
+					"Jeremy", "Maya",
+					"Jesse", "Ella",
+					"Garrett", "Jocelyn",
+					"Diego", "Leslie",
+					"Mark", "Claire",
+					"Owen", "Christina",
+					"Hayden", "Lillian",
+					"Victor", "Evelyn",
+					"Bryce", "Gabriela",
+					"Riley", "Catherine"
+				];
+			function flush(action) {
+				var node = nodes[action.nodeId];
+				var delta = {};
+				delta.flushPoint = action;
+				delta.log = log;
+				showModelessDialog("Client.html", [delta,server]);
+			}
+			var server = {};
+		</script>
+		
+	</head>
+	
+	<body onload="init()">
+		<table style="width: 100%; height: 100%; table-layout: fixed">
+			<tr>
+				<td style="height: 10em">
+					<SELECT ID="selTypes" style="width: 10em" MULTIPLE>
+					</SELECT>				
+					<SELECT ID="selProperties" style="width: 10em" MULTIPLE>
+					</SELECT>
+					<input type="button" value=">" onclick="createFlushPoint()"/>
+					<input type="button" value="<" onclick="removeFlushPoint()"/>
+					<SELECT ID="selFlushPoints" style="width: 10em" MULTIPLE>
+					</SELECT>			
+				</td>
+				<td style="background: pink;" rowspan="3">
+				</td>
+			</tr>
+			<tr>
+				<td style="height: 3em">
+					<input type="checkbox" id="ckRandom"/>random property<br/>
+					<input type="button" value="change" onclick="change()"/>
+					<input type="button" value="insert"/>
+					<input type="button" value="remove"/>
+				</td>
+			</tr>
+			<tr>
+				<td id="tdBuffer" valign="top">
+				</td>
+			</tr>
+		</table>
+	</body>
+
+</html>

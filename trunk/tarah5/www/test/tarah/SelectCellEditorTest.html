@@ -1,0 +1,81 @@
+<html>
+	<head>
+		<title>SelectCellEditorTest</title>
+		<script src="../../js/test/TestHelper.js"></script>
+		<script>
+			
+			// definitions
+			var SelectCellEditor, editor;
+			
+			// model mock
+			var model = [
+				{ realValue: "1", displayValue: "A" },
+				{ realValue: "2", displayValue: "B" },
+				{ realValue: "3", displayValue: "C" }
+				];
+
+			function setUp() {
+				// register
+				SelectCellEditor = jsloader.resolve("tarah.SelectCellEditor");
+			}
+			function tearDown() {
+				// remove
+				jsloader.remove("tarah.SelectCellEditor");
+			}
+			function testCreated() {
+				new SelectCellEditor(target);
+				var select = target.firstChild;
+				assertTrue("Target's first child should be a select.", (!!select) && "SELECT" == select.tagName);
+				assertNull("Select should has no next sibling.", select.nextSibling);
+				assertEquals("Select should be the same width as the target.", target.offsetWidth, select.offsetWidth);
+			}
+			function testModel() {
+				new SelectCellEditor(target, model);
+				var select = target.firstChild;
+				for ( var i = 0; i < model.length; i++ ) {
+					assertEquals("Real value does not match.", model[i].realValue, select.options[i+1].value);
+					assertEquals("Display value does not match.", model[i].displayValue, select.options[i+1].innerHTML);
+				}
+			}
+			function testLoadValue() {
+				target.setAttribute("__value", "2");
+				new SelectCellEditor(target, model);
+				var select = target.firstChild;
+				var selectedOption = null;
+				for ( var i= 0; i < select.options.length; i++ ) {
+					if ( select.options[i].selected ) {
+						selectedOption = select.options[i];
+						break;
+					}
+				}
+				assertNotNull("There should be a selected option.", selectedOption);
+				assertEquals("Selected option's display value does not match.", "B", selectedOption.innerHTML);
+			}
+			function testDestroy() {
+				var editor = new SelectCellEditor(target, model);
+				var select = target.firstChild;
+				editor.destroy();
+				assertTrue("The editor should be removed from the target.", select.parentNode != target);
+			}
+			function testStoreValue() {
+				target.setAttribute("__value", "2");
+				var editor = new SelectCellEditor(target, model);
+				var select = target.firstChild;
+				var optionToSelect = null;
+				for ( var i= 0; i < select.options.length; i++ ) {
+					if ( "C" == select.options[i].innerHTML ) {
+						optionToSelect = select.options[i];
+						break;
+					}
+				}
+				bb.selectOption(select, optionToSelect);
+				editor.destroy();
+				var value = target.getAttribute("__value");
+				assertEquals("The stored value does not match.", "3", value);
+			}
+		</script>
+	</head>
+	<body onload="if(parent==window)setUp()" onunload="if(parent==window)tearDown()">
+		<span id="target" style="position: absolute; width: 230px"></span>
+	</body>
+</html>

@@ -1,0 +1,32 @@
+
+ /-----------------------------\
+ |                             |
+ |                /--> Block --/
+ |                |
+ |                +--> VariableStatement(Identifier) --> AssignmentExpression
+ |                |
+ |                +--> EmptyStatement
+ |                |
+ |                +--> ExpressionStatement ------------------+-----> Expression
+ |                |                                          |
+ |                +--> IfStatement -----------------------+--+----------------------------\
+ |                |                                       |                               |
+ |                +--> IterationStatement(Identifier) ----+                               |
+ |                |                                                                       |
+ +--> Statement --+--> ContinueStatement                                                  |
+ |                |                                                                       |
+ |                +--> BreakStatement                                                     |
+ |                |                                                                       |
+ |                +--> ReturnStatement                                                    |
+ |                |                                                                       |
+ |                +--> WithStatement                                                      |
+ |                |                                                                       |
+ |                +--> LabelledStatement                                                  |
+ |                |                                                                       |
+ |                +--> SwitchStatement                                                    |
+ |                |                                                                       |
+ |                +--> ThrowStatement                                                     |
+ |                |                                                                       |
+ |                \--> TryStatement                                                       |
+ |                                                                                        |
+ \----------------------------------------------------------------------------------------/

@@ -1,0 +1,54 @@
+
+<html>
+	<head>
+		<title>JSLoaderTest</title>
+		<script src="../../../../jsunit/app/jsUnitCore.js"></script>		
+		<script src="../../js/core/JSLoader.js"></script>
+		<script>
+			var jsloader = new JSLoader(document.URL.substring(0,document.URL.indexOf("test")));
+			
+			// ------------------------------------------------------------
+			// JSLoader的责任是装载静态文本资源和JavaScript对象。
+			// ------------------------------------------------------------
+			
+			//
+			// load
+			//
+			function testGetResourceInRoot() {
+				var expectedContent = "resourceInRoot";
+				var content = jsloader.load("resourceInRoot");
+				assertEquals(expectedContent, content);
+			}
+			
+			//
+			// resolve
+			//
+			function testResolveObjectInSubSubDir() {
+				var expectedValue = "anObjectInSubSubDir.value";
+				var value = jsloader.resolve("sub.sub.anObjectInSubSubDir").value;
+				assertEquals(expectedValue, value);
+			}
+			
+			//
+			// default loading			
+			//
+			function testDefaultLoading() {
+				// lang
+				var loaded = jsloader.resolve("sub.sub.anObjectUsingLang").canUseLang();
+				assertTrue(loaded);
+				// EventHelper
+				loaded = jsloader.resolve("sub.sub.anObjectUsingEventHelper").canUseEventHelper();
+				assertTrue(loaded);
+				// domutils
+				loaded = jsloader.resolve("sub.sub.anObjectUsingDomutils").canUseDomutils();
+				assertTrue(loaded);
+				// Module
+				loaded = jsloader.resolve("sub.sub.anObjectUsingModule").canUseModule();
+				assertTrue(loaded);
+			}
+
+		</script>
+	</head>
+	<body>
+	</body>
+</html>

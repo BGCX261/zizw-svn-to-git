@@ -1,0 +1,36 @@
+<html>
+	<head>
+    	<title>AllTests</title>
+		<script src="../../../jsunit/app/jsUnitCore.js"></script>
+	    <script>
+	    	var baseURL = document.URL.substring(0,document.URL.indexOf("test")+5);
+
+			function tarahSuite() {
+	            var result = new top.jsUnitTestSuite();
+	            result.addTestPage(baseURL+"tarah/MainFrameTest.html");
+	            result.addTestPage(baseURL+"tarah/ApplicationTest.html");
+	            result.addTestPage(baseURL+"tarah/LoginTest.html");	            
+	            result.addTestPage(baseURL+"tarah/GridTest.html");
+	            result.addTestPage(baseURL+"tarah/SelectCellEditorTest.html");
+	            result.addTestPage(baseURL+"tarah/DateControllerTest.html");
+	            return result;
+			}
+
+			function serverSuite() {
+	            var result = new top.jsUnitTestSuite();
+	            result.addTestPage(baseURL+"server/DBValidatorTest.html");	            
+	            result.addTestPage(baseURL+"server/LoginServiceTest.html");
+	            return result;
+			}
+						
+	        function suite() {
+	            var newsuite = new top.jsUnitTestSuite();
+	            newsuite.addTestSuite(tarahSuite());
+	            newsuite.addTestSuite(serverSuite());
+	            return newsuite;
+	        }
+	    </script>
+	</head>
+	<body>
+	</body>
+</html>

@@ -1,0 +1,57 @@
+
+<html>
+	<head>
+		<title>JSLoaderTest</title>
+		<script src="file:///d:/programs/jsunit/app/jsUnitCore.js"></script>		
+		<script src="../../../www/wajax/core/JSLoader.js"></script>
+		<script>
+			var jsloader = null;
+			function setUp() {
+				jsloader = new JSLoader(document.URL.substring(0,document.URL.lastIndexOf("www-unit-test"))+"www/");
+			}
+			function tearDown() {
+				jsloader = null;
+			}
+			
+			// ------------------------------------------------------------
+			// JSLoader的责任是装载静态文本资源和JavaScript对象。
+			// ------------------------------------------------------------
+			
+			//
+			// 可以装载一个文本
+			//
+			function testGetResourceInRoot() {
+				var expectedContent = "resourceInRoot";
+				var content = jsloader.load("resourceInRoot");
+				assertEquals(expectedContent, content);
+			}
+			
+			//
+			// 可以装载一个对象
+			//
+			function testResolveObjectInSubSubDir() {
+				var expectedValue = "anObjectInSubSubDir.value";
+				var value = jsloader.resolve("sub.sub.anObjectInSubSubDir").value;
+				assertEquals(expectedValue, value);
+			}
+			
+			//
+			// 自动装载domutils对象
+			//
+			function testLoadingDomutilsByDefault() {
+				var value = jsloader.resolve("sub.sub.anObjectUsingDomutils").canUseDomutils();
+				assertTrue(value);
+			}
+			
+			//
+			// 自动装载EventHelper对象
+			//
+			function testLoadingEventHelperByDefault() {
+				var value = jsloader.resolve("sub.sub.anObjectUsingEventHelper").canUseEventHelper();
+				assertTrue(value);
+			}
+		</script>
+	</head>
+	<body>
+	</body>
+</html>

@@ -1,0 +1,23 @@
+
+<html>
+	<head>
+		<title>Scarlett</title>
+		<script src="js/lang/JSLoader.js"></script>
+		<script>
+			var jsloader = new JSLoader();
+			var Application = jsloader.resolve("scarlett.Application")
+			var app = null;
+			
+			function init() {
+				app = new Application(document.body);
+			}
+			
+			function destroy() {
+				app.destroy();
+			}
+			
+		</script>
+	</head>
+	<body onload="init()" onunload="destroy()">
+	</body>
+</html>

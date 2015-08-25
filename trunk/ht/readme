@@ -1,0 +1,41 @@
+13:56 2007-6-21
+
+采用java GUI的主流方式显示一个窗口
+
+窗口居中,设定大小
+
+15:18 2007-6-21
+
+hibernate.cfg.xml
+XXX.hbm.xml
+hbm2java.xml
+目前这三个文件是唯一的控制入口
+
+通过界面定义这三个文件
+	解析DTD并用树控件展示
+		发昏了,为什么要用树,直接打出来
+		
+你在做决定的时候在怕什么,在逃避什么,在追逐什么?
+
+
+19:19 2007-6-22
+	hibernate cases:
+	# mapping中哪些选项是仅影响schema导出的?哪些是在hibernate运行期使用的?
+	# 验证discriminator-value的存在
+	# 试验mutable的功效,1)能否新建 2)能否删除 3)能否改
+	# save,saveOrUpdate,update之间的区别是什么;他们的两个版本之间的区别是什么
+	
+	
+20:09 2007-6-22
+
+从第五章开始逐页阅读,
+
+ # discriminator-value明明有缺省值(文档上如此说),为什么不指定会报错
+ 	映射文件'子系统'是如何处理的,缺省值是怎样给的
+ 	ANSWER: 不管映射文件的事,rootClass中要申明discriminator字段
+ 	
+ 	
+ 	
+ 	
+ 
+ 

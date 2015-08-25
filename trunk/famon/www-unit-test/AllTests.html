@@ -1,0 +1,25 @@
+<html>
+	<head>
+    	<title>AllTests</title>
+		<script src="file:///d:/programs/jsunit/app/jsUnitCore.js"></script>
+	    <script>
+	    	var www_unit_test_baseURL = document.URL.substring(0,document.URL.lastIndexOf("www-unit-test")+14);
+	        function coreSuite() {
+	            var result = new top.jsUnitTestSuite();
+	            result.addTestPage(www_unit_test_baseURL+"wajax/core/EventHelperTest.html");
+	            result.addTestPage(www_unit_test_baseURL+"wajax/core/JSLoaderTest.html");
+	            result.addTestPage(www_unit_test_baseURL+"wajax/core/langTest.html");
+	            return result;
+	        }
+	
+	        function suite() {
+	            var newsuite = new top.jsUnitTestSuite();
+	            newsuite.addTestSuite(coreSuite());
+	            return newsuite;
+	        }
+	    </script>
+	</head>
+
+	<body>
+	</body>
+</html>

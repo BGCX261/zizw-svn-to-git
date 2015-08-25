@@ -1,0 +1,20 @@
+Parser.java
+	(1) ts.getToken() ==> ts.getTokenWrapper();
+	(2) --> if ( Token.ASSIGN_DIV == tt ) { Translator.translate(Token.ASSIGN_DIV, "", ' ', ""); }
+	(3) --> Translator.translate(Token.DIV, "", ' ', "");
+	(4) --> Translator.translate(Token.REGEXP, "/"+re+"/"+flags, ' ', "");
+
+TokenStream.java
+	(1) --> final int getTokenWrapper() throws IOException {
+    			int token = getToken();
+		    	if ( Token.DIV == token || Token.ASSIGN_DIV == token ) {
+		    		;
+		    	} else {
+		    		Translator.translate(token, string, quoteChar, numString);
+		    	}
+		    	return token;
+		    }
+	(2) --> this.numString = numString;
+	(3) --> this.quoteChar = (char)quoteChar;
+    
+

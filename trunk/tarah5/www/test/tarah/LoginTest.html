@@ -1,0 +1,70 @@
+<html>
+	<head>
+		<title>LoginTest</title>
+		<script src="../../js/test/TestHelper.js"></script>
+		<script>
+		
+			// definitions
+			var Login, login;
+			
+			// LoginService mock
+			var LoginServiceMock = {
+				login: function(username, password) {
+					return "goodUsername" == username && "goodPassword" == password; 
+				}
+			};
+			
+			// Listener mock
+			var passed;
+			var ListenerMock = function() {
+				passed = true;
+			};
+			
+			function setUp() {
+				// register
+				jsloader.register("server.LoginService", LoginServiceMock);
+				Login = jsloader.resolve("tarah.Login");
+				AUI = jsloader.resolve("tarah.AUI");
+				// init mock-related
+				passed = false;
+				// init
+				login = new Login(document.body);
+				login.onPassed.addListener(ListenerMock);
+			}
+			
+			function tearDown() {
+				// destroy
+				login.destroy();
+				// remove
+				jsloader.remove("tarah.AUI");
+				jsloader.remove("tarah.Login");
+				jsloader.remove("server.LoginService");
+			}
+			
+			function testStructure() {
+				TestHelper.assertElementPresent("Login box", AUI.LOGIN_BOX);
+				TestHelper.assertElementPresent("Username label", AUI.LOGIN_BOX_USERNAME_LABEL);
+				TestHelper.assertElementPresent("Username input", AUI.LOGIN_BOX_USERNAME_INPUT);
+				TestHelper.assertElementPresent("Password label", AUI.LOGIN_BOX_PASSWORD_LABEL);
+				TestHelper.assertElementPresent("Password input", AUI.LOGIN_BOX_PASSWORD_INPUT);
+				TestHelper.assertElementPresent("Login button", AUI.LOGIN_BOX_LOGIN_BUTTON);
+				TestHelper.assertElementPresent("Login error", AUI.LOGIN_BOX_LOGIN_ERROR);
+			}
+			function testLoginPassed() {
+				sel.doType(AUI.LOGIN_BOX_USERNAME_INPUT, "goodUsername");
+				sel.doType(AUI.LOGIN_BOX_PASSWORD_INPUT, "goodPassword");
+				sel.doClick(AUI.LOGIN_BOX_LOGIN_BUTTON);
+				assertTrue("Can not pass.", passed);
+			}
+			function testLoginFailed() {
+				sel.doType(AUI.LOGIN_BOX_USERNAME_INPUT, "badUsername");
+				sel.doType(AUI.LOGIN_BOX_PASSWORD_INPUT, "badPassword");
+				sel.doClick(AUI.LOGIN_BOX_LOGIN_BUTTON);
+				var errorMessage = sel.getText(AUI.LOGIN_BOX_LOGIN_ERROR) || "";
+				assertTrue("No error message.", errorMessage.length>0);
+			}
+		</script>
+	</head>
+	<body>
+	</body>
+</html>

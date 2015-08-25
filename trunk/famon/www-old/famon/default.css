@@ -1,0 +1,46 @@
+
+.famon_TabPanel_tabIndent {
+	border-bottom: solid black 1px;
+}
+
+.famon_TabPanel_tab {
+	border-top: solid black 1px;
+	border-right: solid black 1px;
+	border-left: solid black 1px;
+	border-bottom: solid black 1px;
+}
+
+.famon_TabPanel_tabSelected {
+	border-top: solid black 1px;
+	border-right: solid black 1px;
+	border-left: solid black 1px;
+	padding-bottom: 4px
+}
+
+.famon_TabPanel_tabSpace {
+	border-bottom: solid black 1px;
+}
+
+.famon_TabPanel_tabTrailing {
+	border-bottom: solid black 1px;
+}
+
+.famon_TabPanel_pageHolder {
+	border-bottom: solid black 1px;
+	border-right: solid black 1px;
+	border-left: solid black 1px;
+}
+
+.date {
+	border-top: solid white 1px;
+	border-bottom: solid white 1px;
+	border-right: solid white 1px;
+	border-left: solid white 1px;
+}
+
+.dateSelected {
+	border-top: solid black 1px;
+	border-bottom: solid black 1px;
+	border-right: solid black 1px;
+	border-left: solid black 1px;
+}

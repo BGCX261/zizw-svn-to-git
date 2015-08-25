@@ -1,0 +1,137 @@
+
+<html>
+	<head>
+		<title>EventHelperTest</title>
+		<script src="../../../../jsunit/app/jsUnitCore.js"></script>		
+		<script src="../../js/core/JSLoader.js"></script>
+		<script>
+			var jsloader = new JSLoader(document.URL.substring(0,document.URL.indexOf("test")));
+			var EventHelper = jsloader.resolve("core.EventHelper");
+			var target = null, target2 = null;
+			var that = null, that2 = null;
+			function setUp() {				
+				target = new Target();
+				that = new That();				
+				target2 = new Target();
+				that2 = new That();
+			}
+			function tearDown() {
+				target = null;
+				that = null;
+				target2 = null;
+				that2 = null;
+			}
+			
+			// ------------------------------------------------------------
+			// EventHelper的责任是事件绑定
+			// ------------------------------------------------------------
+			
+			//
+			// attachListener
+			//
+			function testAttachListener() {
+				var eventHelper = new EventHelper();
+				eventHelper.attachListener(target, "__type", that.handler, that);
+				assertEquals("message before fire", that.value);
+				target.fire({__msg:"message from event"});
+				assertEquals("message from event", that.value);
+			}
+
+			//
+			// attachListener, twice
+			//
+			function testAttachListenerTwice() {
+				var eventHelper = new EventHelper();
+				eventHelper.attachListener(target, "__type", that.handler, that);
+				eventHelper.attachListener(target, "__type", that.handler, that);
+				target.fire({__msg:"message from event"});
+				assertEquals(1, that.count);
+			}
+			
+			//
+			// detachListener
+			//
+			function testDetachListener() {
+				var eventHelper = new EventHelper();
+				eventHelper.attachListener(target, "__type", that.handler, that);
+				eventHelper.detachListener(target, "__type", that.handler);
+				target.fire({__msg:"message from event"});
+				assertEquals("message before fire", that.value);
+			}
+
+			//
+			// detachListener, twice
+			//
+			function testDetachListenerTwice() {
+				var eventHelper = new EventHelper();
+				eventHelper.attachListener(target, "__type", that.handler, that);
+				eventHelper.attachListener(target, "__type", that.handler, that);
+				eventHelper.attachListener(target, "__type", that.handler, that);
+			}
+			
+			//
+			// detachAllListeners
+			//
+			function testDetachAllListeners() {
+				var eventHelper = new EventHelper();
+				eventHelper.attachListener(target, "__type", that.handler, that);
+				eventHelper.attachListener(target2, "__type", that2.handler, that2);
+				eventHelper.detachAllListeners();
+				target.fire({__msg:"message from event"});
+				target2.fire({__msg:"message from event 2"});
+				assertEquals("message before fire", that.value);
+				assertEquals("message before fire", that2.value);
+			}
+			
+			// ------------------------------------------------------------
+			// Mock Area
+			// ------------------------------------------------------------
+			
+			var Target = function() {
+				return {
+					bindings: [],
+					attachEvent: function(type, handler) {
+						this.bindings.push({type:type,handler:handler});
+					},
+					detachEvent: function(type, handler) {
+						for ( var i = 0; i < this.bindings.length; i++ ) {
+							if ( !this.bindings[i] )
+								continue;
+							if ( type != this.bindings[i].type )
+								continue;
+							if ( handler != this.bindings[i].handler )
+								continue;
+							this.bindings[i] = null;
+						}
+					},
+					addEventListener: function(type, handler) {
+						this.attachEvent(type, handler);
+					},
+					removeEventListener: function(type, handler) {
+						this.detachEvent(type, handler);
+					},
+					fire: function(ev) {					
+						for ( var i = 0; i < this.bindings.length; i++ ) {
+							if ( !this.bindings[i] )
+								continue;
+							this.bindings[i].handler(ev);
+						}
+					}
+				};
+			};
+			
+			var That = function() {
+				return {
+					value: "message before fire",
+					count: 0,
+					handler: function(ev) {
+						this.value = ev.__msg;
+						this.count++;
+					}
+				};
+			};
+		</script>
+	</head>
+	<body>
+	</body>
+</html>

@@ -1,0 +1,39 @@
+
+<html>
+
+	<head>
+		<title>Client Test</title>
+		<script src="js/com/honmansoft/ajax/jsloader.js"></script>
+		<script>
+			var SchemaModel = jsloader.resolve("com.honmansoft.auiprot.SchemaModel");
+			var SchemaView = jsloader.resolve("com.honmansoft.auiprot.SchemaView");
+			var InstanceModel = jsloader.resolve("com.honmansoft.auiprot.InstanceModel");
+			var InstanceView = jsloader.resolve("com.honmansoft.auiprot.InstanceView");
+			var Connection = jsloader.resolve("com.honmansoft.auiprot.Connection");
+			function init() {
+				var schemaModel = new SchemaModel();
+				new SchemaView(tdSchemaView, schemaModel);
+				var connection = new Connection();
+				new InstanceView(tdClientInstance, new InstanceModel(schemaModel, connection, true));
+				new InstanceView(tdServerInstance, new InstanceModel(schemaModel, connection, false));
+			}
+		</script>
+		
+	</head>
+	
+	<body onload="init()">
+		<table style="width: 100%; height: 100%; table-layout: fixed">
+			<tr>
+				<td id="tdSchemaView" valign="top" colspan="2" style="height: 5em">
+				</td>
+			</tr>
+			<tr>
+				<td id="tdClientInstance" valign="top">
+				</td>
+				<td id="tdServerInstance" valign="top">
+				</td>
+			</tr>
+		</table>
+	</body>
+
+</html>

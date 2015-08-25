@@ -1,0 +1,53 @@
+
+<project default="nop">
+
+	<property name="jsunit-dir" value="${basedir}/test/jsunit"></property>
+	<property name="wajax-dir" value="${basedir}/src/wajax"></property>
+	
+	<property file="build.properties">
+	<!-- build.properties should define the following properties:
+	jsunit-home=
+	wajax-home=
+	-->
+	</property>
+		
+	<target name="nop"></target>
+	
+	<target name="init-project" depends="clean-project">
+		
+		<!-- init jsunit dir -->
+		<mkdir dir="${jsunit-dir}"/>
+		<copy todir="${jsunit-dir}">
+			<fileset dir="${jsunit-home}"></fileset>
+		</copy>
+
+		<!-- init wajax dir -->
+		<mkdir dir="${wajax-dir}"/>
+		<copy todir="${wajax-dir}">
+			<fileset dir="${wajax-home}/src/wajax"></fileset>
+		</copy>
+				
+		<!-- create a scratch.html for spike -->
+		<concat destfile="${basedir}/scratch.html">
+<![CDATA[
+<html>
+	<head>
+		<title>scratch</title>
+		<script>
+			function init() {
+			}
+		</script>
+	</head>
+	<body onload="init()">
+	</body>
+</html>
+]]>
+		</concat>
+	</target>
+	
+	<target name="clean-project">
+		<delete dir="${jsunit-dir}"/>
+		<delete dir="${wajax-dir}"/>
+		<delete file="${basedir}/scratch.html"/>
+	</target>
+</project>

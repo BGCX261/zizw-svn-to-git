@@ -1,0 +1,61 @@
+Identifier
+	
+	FormalParameterList 函数表达式或函数声明的参数列表
+		FunctionExpression
+		FunctionDeclaration
+	FunctionExpression 函数表达式的函数名
+		MemberExpression
+			NewExpression
+			CallExpression
+				()LeftHandSideExpression
+					IterationStatement
+					AssignmentExpression
+					PostfixExpression
+	FunctionDeclaration 函数声明的函数名
+	Catch 异常变量声明
+	LabelledStatement 语句标号声明
+	BreakStatement 在break中的语句标号引用
+	ContinueStatement 在continue中的语句标号引用
+	VariableDeclaration 变量声明
+	CallExpression 成员引用
+	MemberExpression 成员引用
+	PropertyName 对象字面值中成员声明
+	PrimaryExpression 
+
+=============================================================================
+
+NoIn pairs
+	Initialiser
+	VariableDeclaration
+	VariableDeclarationList
+	Expression
+	AssignmentExpression
+	ConditionalExpression
+	LogicalORExpression
+	LogicalANDExpression
+	BitwiseORExpression
+	BitwiseXORExpression
+	BitwiseANDExpression
+	EqualityExpression
+	RelationalExpression
+	
+=============================================================================
+
+PostfixExpression
+ UnaryExpression
+  MultiplicativeExpression
+   AdditiveExpression
+    ShiftExpression
+     RelationalExpression(NoIn)
+      EqualityExpression(NoIn)
+       BitwiseANDExpression(NoIn)
+        BitwiseXORExpression(NoIn)
+         BitwiseORExpression(NoIn)
+          LogicalANDExpression(NoIn)
+           LogicalORExpression(NoIn)
+            ConditionalExpression(NoIn)
+             AssignmentExpression(NoIn)
+              Expression(NoIn)
+              Initialiser(NoIn)
+               VariableDeclaration(NoIn)
+                VariableDeclarationList(NoIn)

@@ -1,0 +1,25 @@
+
+<html>
+
+	<head>
+		<title>Server Test</title>
+		<script src="js/com/honmansoft/ajax/jsloader.js"></script>
+		<script>
+			var instanceModel = dialogArguments[0];
+			var flushPoint = dialogArguments[1];
+			var InstanceView = jsloader.resolve("com.honmansoft.auiprot.InstanceView");
+			var lang = jsloader.resolve("com.honmansoft.ajax.lang");
+			function init() {
+				new InstanceView(divServerInstance, instanceModel);
+				alert(lang.toJSONString(flushPoint));
+			}
+		</script>
+		
+	</head>
+	
+	<body onload="init()">
+		<div id="divServerInstance">
+		</div>
+	</body>
+
+</html>

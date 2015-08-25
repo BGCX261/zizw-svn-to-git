@@ -1,0 +1,52 @@
+
+<html>
+	<head>
+		<title>EventHelperTest</title>
+		<script>
+			var bblert = alert;
+		</script>
+		<script src="file:///d:/programs/jsunit/app/jsUnitCore.js"></script>		
+		<script src="../../../www/wajax/core/JSLoader.js"></script>				
+		<script src="../../../selenium-browserbot/htmlutils.js"></script>							
+		<script src="../../../selenium-browserbot/selenium-logging.js"></script>				
+		<script src="../../../selenium-browserbot/selenium-browserdetect.js"></script>
+		<script src="../../../selenium-browserbot/selenium-browserbot.js"></script>
+		<script>
+			var jsloader = new JSLoader(document.URL.substring(0,document.URL.lastIndexOf("www-unit-test"))+"www/");
+			var EventHelper = jsloader.resolve("wajax.core.EventHelper");			
+			var bb = BrowserBot.createForWindow(window);
+			var eventHelper = null;
+			function setUp() {
+				eventHelper = new EventHelper();
+			}
+			function tearDown() {
+				eventHelper = null;
+			}
+			
+			// ------------------------------------------------------------
+			// EventHelper的责任是使DOM事件的绑定和注销更加便利。
+			// ------------------------------------------------------------
+			
+			//
+			// 可以正确绑定事件监听器
+			//
+			function testAttachEvent() {
+				var expectedValue = "memberValue-aButton";
+				var value = null;
+				var anObject = new function() {
+					this.member = "memberValue";
+					this.handler = function(ev) {
+						value = this.member + "-" + ev.target.id
+					};
+				};
+				var aButton = document.getElementById("aButton");
+				eventHelper.attachListener(aButton, "click", anObject.handler, anObject);
+				bb.clickElement(aButton);
+				assertEquals(expectedValue, value);
+			}
+		</script>
+	</head>
+	<body>
+		<input id="aButton" type="button" value="TEST"/>
+	</body>
+</html>

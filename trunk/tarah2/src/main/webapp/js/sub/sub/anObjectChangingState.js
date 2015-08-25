@@ -1,0 +1,4 @@
+
+var anObjectChangingState = {
+	value: "initial"
+};

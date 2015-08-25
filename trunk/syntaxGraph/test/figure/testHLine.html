@@ -1,0 +1,27 @@
+
+<html>
+	<head>
+		<title>test HLine</title>
+		<script src="../jsunit/app/jsUnitCore.js"></script>
+		<script src="../../src/wajax/core/JSLoader.js"></script>
+		<script>
+			var canvas;
+			var jsloader = new JSLoader();
+			var HLine = jsloader.resolve("figure.HLine");
+			var domutils = jsloader.resolve("wajax.core.domutils");
+			function testDimension() {
+				var hline = new HLine(canvas);
+				hline.setLength(37);
+				var dimension = domutils.getDimension(hline.getElement());
+				assertEquals(2, dimension.height);
+				assertEquals(37, dimension.width);
+			}
+		</script>
+	</head>
+	<body>
+		<div id="canvas" style="position: relative; height: 300px; width: 400px"></div>
+	</body>
+	<script>	
+		canvas = document.getElementById("canvas");
+	</script>
+</html>

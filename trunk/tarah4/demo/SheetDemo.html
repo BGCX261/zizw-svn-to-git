@@ -1,0 +1,23 @@
+
+<html>
+	<head>
+		<title>SheetDemo</title>
+		<script src="../js/core/JSLoader.js"></script>
+		<script>
+			var jsloader = new JSLoader(document.URL.substring(0,document.URL.indexOf("demo")));
+			var Sheet = jsloader.resolve("ui.Sheet");
+			var sheet = null;
+			
+			function init() {
+				sheet = new Sheet(root);
+				sheet.element.style.backgroundColor = "darkseagreen";
+			}
+			function destroy() {
+				sheet.destroy();
+			}
+		</script>
+	</head>
+	<body onload="init()" onunload="destroy()">
+		<div id="root" style="position: absolute; width: 400px; height: 300px"></div>
+	</body>
+</html>

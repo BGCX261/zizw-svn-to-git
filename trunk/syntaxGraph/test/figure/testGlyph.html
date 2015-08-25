@@ -1,0 +1,27 @@
+
+<html>
+	<head>
+		<title>test Glyph</title>
+		<script src="../jsunit/app/jsUnitCore.js"></script>
+		<script src="../../src/wajax/core/JSLoader.js"></script>
+		<script>
+			var canvas;
+			var jsloader = new JSLoader();
+			var Glyph = jsloader.resolve("figure.Glyph");
+			var domutils = jsloader.resolve("wajax.core.domutils");
+			function testPosition() {
+				var glyph = new Glyph(canvas);
+				glyph.setPosition(123, 456);
+				var position = domutils.getPositionedOffset(glyph.getElement());
+				assertEquals(123, position.left);
+				assertEquals(456, position.top);
+			}
+		</script>
+	</head>
+	<body>
+		<div id="canvas" style="position: relative; height: 300px; width: 400px"></div>
+	</body>
+	<script>	
+		canvas = document.getElementById("canvas");
+	</script>
+</html>

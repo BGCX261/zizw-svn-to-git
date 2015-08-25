@@ -1,0 +1,132 @@
+
+<html>
+	<head>
+		<title>testJsloader</title>
+		<script src="../jsunit/app/jsUnitCore.js"></script>
+		<script src="../../src/wajax/core/JSLoader.js"></script>
+		<script>
+			var baseURL = JSLoader.serverlessTestEnvBaseURL;
+			var jsloader = new JSLoader();
+			var WajaxError = jsloader.resolve("wajax.core.WajaxError");
+			//
+			function testHasName() {
+				assertNotNull(jsloader);
+				assertNotUndefined(jsloader);
+			}
+			function testHasLoadMethod() {
+				assertEquals("function", typeof jsloader.load);
+			}
+			function testHasResolveMethod() {
+				assertEquals("function", typeof jsloader.resolve);
+			}
+			// load resource at root
+			function testLoadFileInWebRoot() {
+				var fileInWebRoot = jsloader.load("fileInWebRoot");
+				assertEquals("fileInWebRoot", fileInWebRoot);
+			}
+			// load resource at subdir
+			function testLoadFileInSubDir() {
+				var fileInSubDir = jsloader.load("wajax-testbed/fileInSubDir");
+				assertEquals("fileInSubDir", fileInSubDir);
+			}
+			// load resource error			
+			function testLoadFileInSubDir() {
+				var url = "no-such-resource";
+				try {				
+					jsloader.load(url);
+				} catch (ex) {
+					assertTrue(ex instanceof WajaxError.ResourceNotFound);
+					assertEquals(url, ex.url);
+					return;
+				}
+				assertTrue(false);
+			}
+			// load object
+			function testLoadObject() {
+				var loadObject = jsloader.resolve("wajax-testbed.dir.loadObject");
+				assertTrue(loadObject.value);
+			}
+			// cache object
+			function testCacheObject() {
+				var cacheObject = jsloader.resolve("wajax-testbed.cacheObject");
+				assertTrue(cacheObject.value);
+				cacheObject.value = false;
+				cacheObject = jsloader.resolve("wajax-testbed.cacheObject");
+				assertFalse(cacheObject.value);
+			}			
+			// load object error
+			function testLoadObjectError() {
+				var fullName = "wajax-testbed.badObject";
+				try {				
+					jsloader.resolve(fullName);
+				} catch (ex) {
+					assertTrue(ex instanceof WajaxError.BadObject);
+					assertEquals(fullName, ex.fullName);
+					return;
+				}
+				assertTrue(false);
+			}
+			// every loaded object has its own jsloader reference
+			function testIsolatedJsloaderRef() {			
+				var maliciousObject = jsloader.resolve("wajax-testbed.maliciousObject");
+				var innocentObject = jsloader.resolve("wajax-testbed.innocentObject");
+				maliciousObject.setJsloaderToNull();
+				assertNotNull(innocentObject.getJsloader());
+				maliciousObject.restoreJsloader();
+			}
+			// every loaded object has its jsloader wrapped
+			function testJsloaderWrapped() {
+				var maliciousObject = jsloader.resolve("wajax-testbed.maliciousObject");
+				var innocentObject = jsloader.resolve("wajax-testbed.innocentObject");
+				maliciousObject.setLoadToNull();
+				assertNotNull(innocentObject.getLoad());
+			}
+			// every loaded object can load others by utilizing jsloader
+			function testLoadingObject() {
+				var loadingObject = jsloader.resolve("wajax-testbed.loadingObject");
+				var loadedObject = loadingObject.doLoad();
+				assertTrue(loadedObject.value);
+				loadedObject.value = false;
+				loadedObject = jsloader.resolve("wajax-testbed.loadedObject");
+				assertFalse(loadedObject.value);
+			}			
+			// test default-imports list
+			function testDefaultImports() {
+				//
+				var loader = new JSLoader({baseURL: baseURL, defaultImports: ["wajax-testbed.defaultImportedA", "wajax-testbed.defaultImportedB"]});
+				var defaultImportingObject = loader.resolve("wajax-testbed.defaultImportingObject");
+				assertEquals("defaultImportedA", defaultImportingObject.getA());
+				assertEquals("defaultImportedB", defaultImportingObject.getB());
+			}
+			// test malicious default-imports list
+			function testMaliciousDefaultImports() {
+				//
+				var loader = new JSLoader({baseURL: baseURL});
+				assertTrue(loader.resolve("wajax-testbed.dir.loadObject").value);
+				loader = null;
+				//
+				loader = new JSLoader({baseURL: baseURL, defaultImports: null});
+				assertTrue(loader.resolve("wajax-testbed.dir.loadObject").value);
+				loader = null;
+				//
+				loader = new JSLoader({baseURL: baseURL, defaultImports: 123});
+				assertTrue(loader.resolve("wajax-testbed.dir.loadObject").value);
+				loader = null;
+				//
+				loader = new JSLoader({baseURL: baseURL, defaultImports: [123]});
+				assertTrue(loader.resolve("wajax-testbed.dir.loadObject").value);
+				loader = null;
+				//
+				loader = new JSLoader({baseURL: baseURL, defaultImports: ["wajax-testbed.noSuchObject"]});
+				assertTrue(loader.resolve("wajax-testbed.dir.loadObject").value);
+				loader = null;
+				//
+				loader = new JSLoader({baseURL: baseURL, defaultImports: ["wajax-testbed.badObject"]});
+				assertTrue(loader.resolve("wajax-testbed.dir.loadObject").value);
+				loader = null;
+			} 
+		</script>
+	</head>
+	<body>
+	</body>
+</html>

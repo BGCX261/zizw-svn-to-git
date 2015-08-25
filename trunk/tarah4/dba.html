@@ -1,0 +1,63 @@
+
+<html>
+	<head>
+		<title>dba</title>		
+		<script src="js/core/JSLoader.js"></script>
+		<script>
+		</script>
+		<script>				
+var jsloader = new JSLoader();
+var Connection = jsloader.resolve("core.GGDBConnection");
+
+function log(msg) {
+	var div = document.createElement("div");
+	div.innerHTML = msg;
+	out.appendChild(div);
+}
+
+function execute(conn, sql) {
+	try {
+		conn.execute(sql);
+	} catch(ex) {
+		log(ex.message);
+		conn.destroy();
+		throw ex;
+	}
+	log(sql);
+}
+
+function create() {
+	var conn = new Connection("tarah");
+	execute(
+		conn, 
+		"create table user(" +
+		"id integer primary key autoincrement, " +
+		"username varchar(255) unique, " +
+		"password varchar(255)" +
+		")");
+	conn.destroy();
+}
+
+function populate() {
+	var conn = new Connection("tarah");
+	execute(conn, "insert into user (username,password) values('zeus','1234')");
+	conn.destroy();
+}
+
+function drop() {
+	var conn = new Connection("tarah");
+	execute(
+		conn, 
+		"drop table user");
+	conn.destroy();
+}
+
+		</script>
+	</head>
+	<body>
+		<input type="button" value="create" onclick="create()"/>
+		<input type="button" value="populate" onclick="populate()"/>
+		<input type="button" value="drop" onclick="drop()"/>
+		<div id="out" style="border: black 1px solid; height: 300px; width: 700px; overflow: auto"></div>
+	</body>
+</html>

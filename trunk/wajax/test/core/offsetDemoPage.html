@@ -1,0 +1,93 @@
+
+<html>
+	<head>
+		<title>offset demo page</title>
+		<script src="../../src/wajax/core/PrototypeDistilled.js"></script>
+	<script>
+		var Prototype = PrototypeDistilled;
+		var offsetNames = [
+			"realOffset",
+			"cumulativeOffset",
+			"pageOffset",
+			"positionedOffset"
+		];
+		function getOffsets(offsetNames, element) {
+			var offsets = {};
+			for ( var i = 0; i < offsetNames.length; i++ ) {
+				var methodName = "get"+offsetNames[i].replace(/^(.)/g, function(match){return match.toUpperCase()});			
+				offsets[offsetNames[i]] = (PrototypeDistilled[methodName])(element);
+			} 
+			return offsets;
+		}
+		function printOffsets() {
+			var mydiv = document.getElementById("mydiv");
+			var offsets = getOffsets(offsetNames, mydiv);
+			echo.innerHTML = "<table border='1'>\
+			<tr>\
+				<td>real offset\
+				</td>\
+				<td>" + offsets["realOffset"].left + "\
+				</td>\
+				<td>" + offsets["realOffset"].top + "\
+				</td>\
+			</tr>\
+			<tr>\
+				<td>cumulative offset\
+				</td>\
+				<td>" + offsets["cumulativeOffset"].left + "\
+				</td>\
+				<td>" + offsets["cumulativeOffset"].top + "\
+				</td>\
+			</tr>\
+			<tr>\
+				<td>page offset\
+				</td>\
+				<td>" + offsets["pageOffset"].left + "\
+				</td>\
+				<td>" + offsets["pageOffset"].top + "\
+				</td>\
+			</tr>\
+			<tr>\
+				<td>positioned offset\
+				</td>\
+				<td>" + offsets["positionedOffset"].left + "\
+				</td>\
+				<td>" + offsets["positionedOffset"].top + "\
+				</td>\
+			</tr>\
+		</table>";
+		}
+	</script>
+	</head>
+	<body style="margin: 20px">
+		<div style="
+			background-color: yellow;
+			height: 200px;
+			width: 300px;
+			overflow: auto;
+			position: relative;">
+			<pre>
+			the outter div the outter div the outter div the outter div the outter div the outter div the outter div the outter div the outter div the outter div the outter div the outter div the outter div the outter div <br/>
+			</pre>
+			the outter div<br/>
+			the outter div<br/>
+			the outter div<br/>
+			the outter div<br/>
+			the outter div<br/>
+			the outter div<br/>
+			the outter div<br/>
+			the outter div<br/>
+			the outter div<br/>
+			the outter div<br/>
+			the outter div<br/>
+			the outter div<br/>
+			the outter div<br/>
+			the outter div<br/>
+			<div id="mydiv" style="background-color: pink">mydiv</div>
+			the outter div
+		</div>
+		<input type="button" value="print" onclick="printOffsets()"/>
+		<div id="echo">
+		</div>
+	</body>
+</html>

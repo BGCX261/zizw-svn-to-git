@@ -1,0 +1,41 @@
+
+<html>
+	<head>
+		<title>langTest</title>
+		<script src="../../../../jsunit/app/jsUnitCore.js"></script>		
+		<script src="../../js/core/JSLoader.js"></script>
+		<script>
+
+			var jsloader = new JSLoader(document.URL.substring(0,document.URL.indexOf("test")));
+			var lang = jsloader.resolve("core.lang");
+			
+			// ------------------------------------------------------------
+			// lang的责任是提供语言级别的扩展，放弃测试，人工确认
+			// ------------------------------------------------------------
+			
+			//
+			// parseJSON
+			//
+			function testParseJSON() {
+				assertTrue(!!lang.parseJSON);
+			}
+			
+			//
+			// toJSONString
+			//
+			function testToJSONString() {
+				assertTrue(!!lang.toJSONString);
+			}
+			
+			//
+			// extend
+			//
+			function testExtend() {
+				assertTrue(!!lang.extend);
+			}
+					
+		</script>
+	</head>
+	<body>
+	</body>
+</html>

@@ -1,0 +1,6 @@
+input	单行文本输入框
+tarea	多行文本输入框
+label	单行文本显示
+text	多行文本显示
+passwd	密码输入框
+btn		按钮

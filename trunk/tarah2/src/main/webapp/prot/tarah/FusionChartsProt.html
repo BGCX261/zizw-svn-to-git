@@ -1,0 +1,39 @@
+
+<html>
+	<head>
+		<title>FusionChartsProt</title>		
+		<script src="../../js/core/JSLoader.js"></script>
+		<script>
+			var jsloader = new JSLoader(document.URL.substring(0,document.URL.indexOf("prot")));
+			var domutils = jsloader.resolve("core.domutils");
+			var FusionCharts = jsloader.resolve("thirdparty.FusionCharts");
+			function init() {
+				var xml = document.implementation.createDocument("", "", null);
+				var nodeChart = xml.createElement("chart");
+				xml.appendChild(nodeChart);
+				var nodeSet = xml.createElement("set");
+				nodeChart.appendChild(nodeSet);
+				nodeSet.setAttribute("label", "A");
+				nodeSet.setAttribute("value", 10);
+				nodeSet = xml.createElement("set");
+				nodeChart.appendChild(nodeSet);
+				nodeSet.setAttribute("label", "B");
+				nodeSet.setAttribute("value", 11);
+				//
+				var chart = new FusionCharts(
+					"../../swf/FusionCharts/Column3D.swf", 
+					"chartId", 
+					"400", "300", "0", "1");		   			
+				chart.setDataXML(domutils.xml2string(xml.documentElement));
+				chart.render("root");
+			}
+			function destroy() {
+				
+			}
+		</script>
+	</head>
+	<body onload="init()" onunload="destroy()">
+		<div id="root" style="position: absolute; width: 400px; height: 300px; background-color: pink">
+		</div>
+	</body>
+</html>

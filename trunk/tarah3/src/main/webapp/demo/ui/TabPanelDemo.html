@@ -1,0 +1,30 @@
+
+<html>
+	<head>
+		<title>TabPanelDemo</title>
+		<script src="../../js/core/JSLoader.js"></script>
+		<script>
+			var jsloader = new JSLoader(document.URL.substring(0,document.URL.indexOf("demo")));
+			var TabPanel = jsloader.resolve("ui.TabPanel");
+			var tabPanel = null;
+			
+			function init() {
+				tabPanel = new TabPanel(root);
+				tabPanel.element.style.backgroundColor = "darkseagreen";
+			}
+			function destroy() {
+				tabPanel.destroy();
+			}
+			var pageIndex = 0;
+			function doAppend() {
+				tabPanel.append("Page_"+pageIndex++);
+			}
+		</script>
+	</head>
+	<body onload="init()" onunload="destroy()">
+		<div id="root" style="position: absolute; width: 400px; height: 300px"></div>
+		<div id="text" style="position: absolute; width: 400px; left: 450px">
+			<input type="button" value="append" onclick="doAppend()"/>
+		</div>
+	</body>
+</html>

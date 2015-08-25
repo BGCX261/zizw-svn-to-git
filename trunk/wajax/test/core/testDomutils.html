@@ -1,0 +1,16 @@
+
+<html>
+	<head>
+		<title>testDomutils</title>
+		<script src="../jsunit/app/jsUnitCore.js"></script>
+		<script src="../../src/wajax/core/JSLoader.js"></script>
+		<script>		
+			var baseURL = JSLoader.serverlessTestEnvBaseURL;
+			var jsloader = new JSLoader({baseURL: ""});
+			var domutils = jsloader.resolve("wajax.core.domutils");
+		</script>
+	</head>
+	<body>
+		<div id="staticDiv"></div>
+	</body>
+</html>

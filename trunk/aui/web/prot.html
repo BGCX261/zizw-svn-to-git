@@ -1,0 +1,241 @@
+<html>
+	<head>
+		<title>prot</title>
+		<script>
+			
+			function __create(childNode) {
+				var element = null;
+				if ( childNode.type == "string" ) {
+					element = document.createElement("input");
+				} else if ( childNode.type == "boolean" ) {
+					element = document.createElement("input");
+					element.type = "checkbox";
+				} else if ( childNode.type == "number" ) {
+					element = document.createElement("input");
+				} else if ( childNode.type == "object" ) {
+					element = document.createElement("table");
+					element.border = 2;
+				} else if ( childNode.type == "array" ) {
+					element = document.createElement("div");
+				} else {
+					throw null;
+				}
+				return element;
+			}
+			
+			function _set(node, value) {
+				node.value = value;
+				if ( node.type == "string" ) {
+					node.element.value = value;
+				} else if ( node.type == "boolean" ) {
+					node.element.checked = value;
+				} else if ( node.type == "number" ) {
+					node.element.value = value;
+				} else if ( node.type == "object" ) {
+					if ( !node.element.firstChild ) {
+						var tbody = document.createElement("tbody");
+						node.element.appendChild(tbody);
+					}
+					_removeAll(node);
+					for ( var prop in value ) {
+						_add(node, prop, new Node(value[prop]));
+					}
+				} else if ( node.type == "array" ) {
+					_deleteAll(node);
+					for ( var i in value ) {
+						_insert(node, -1, new Node(value[i]));
+					}
+				} else {
+					throw null;
+				}
+			}
+			
+			function _insert(parentNode, index, childNode) {
+				var container = parentNode.element;
+				var element = __create(childNode);
+				if ( index == -1 ) {
+					// dojob
+					container.appendChild(element);
+					parentNode._insert(index, childNode);
+					childNode.element = element;
+				} else {
+					container._insertBefore(element, parentNode.getChild(index).element);
+					parentNode._insert(index, childNode);
+					childNode.element = element;
+				}
+				_set(childNode, childNode.value);
+				return childNode;
+			}
+			
+			function _deleteAll(parentNode) {
+				var container = parentNode.element;
+				while (container.firstChild) container.removeChild(container.firstChild);
+				parentNode._deleteAll();
+			}
+			
+			function _delete(parentNode, index) {
+				var container = parentNode.element;
+				var element = parentNode._delete(index).element;
+				container.removeChild(element);
+			}
+			
+			function _add(parentNode, name, childNode) {
+				parentNode._add(name, childNode);
+				var tbody = parentNode.element.firstChild;
+				var tr = document.createElement("tr");
+				tbody.appendChild(tr);
+				var tdName = document.createElement("td");
+				tr.appendChild(tdName);
+				var tdValue = document.createElement("td");
+				tr.appendChild(tdValue);
+				//
+				tdName.innerHTML = name;
+				var element = __create(childNode);
+				tdValue.appendChild(element);
+				childNode.element = element;
+				_set(childNode, childNode.value);
+			}
+			
+			function _removeAll(parentNode) {
+				var container = parentNode.element.firstChild;
+				while (container.firstChild) container.removeChild(container.firstChild);
+				parentNode._removeAll();
+			}
+			
+			function _remove(parentNode, name) {
+				var container = parentNode.element.firstChild;
+				var element = parentNode._remove(name).element.parentNode.parentNode;
+				container.removeChild(element);
+			}
+			
+			function Node(value) {
+				if ( (typeof value) == "string" ) {
+					this.type = "string";
+				} else if ( (typeof value) == "number" ) {
+					this.type = "number";
+				} else if ( (typeof value) == "boolean" ) {
+					this.type = "boolean";
+				} else if ( (typeof value) == "object" ) {
+					if ( value instanceof Array ) {
+						this.type = "array";
+					} else {
+						this.type = "object";
+					} 
+				} else {
+					throw null;
+				}
+				this.value = value;
+				this.firstChild = null;
+				this.nextSibling = null;
+				this.map = {};
+			}
+			
+			Node.prototype._insert = function(index, childNode) {
+				if ( this.firstChild == null ) {
+					this.firstChild = childNode;
+					return;
+				}
+				if ( index == 0 ) {
+					childNode.nextSibling = this.firstChild;
+					this.firstChild = childNode;
+					return;
+				}
+				var node = this.findNode(this.firstChild, index);
+				childNode.nextSibling = node.nextSibling;
+				node.nextSibling = childNode;
+			};
+			
+			Node.prototype.getChild = function(index) {
+				if ( index == 0 ) {
+					return this.firstChild;
+				}
+				return this.findNode(this.firstChild, index).nextSibling;
+			};
+			
+			Node.prototype._deleteAll = function(index) {
+				this.firstChild = null;
+			};
+			
+			Node.prototype._delete = function(index) {
+				var removedNode = null;
+				if ( index == 0 ) {
+					removedNode = this.firstChild;
+					this.firstChild = removedNode.nextSibling;
+					removedNode.nextSibling = null;
+					return removedNode;
+				}
+				var node = this.findNode(this.firstChild, index);
+				removedNode = node.nextSibling;
+				node.nextSibling = removedNode.nextSibling;
+				removedNode.nextSibling = null;
+				return removedNode;
+			};
+			
+			Node.prototype._add = function(name, childNode) {
+				this.map[name] = childNode;
+			};
+
+			Node.prototype._removeAll = function(name, childNode) {
+				this.map = {};
+			};
+			
+			Node.prototype._remove = function(name, childNode) {
+				var member = this.map[name];
+				delete this.map[name];
+				return member;
+			};
+						
+			Node.prototype.findNode = function(node, index) {
+				if ( --index == 0 ) {
+					return node;
+				}
+				if ( node.nextSibling == null ) {
+					return node;
+				}
+				return this.findNode(node.nextSibling, index);
+			};
+			
+			var model = new Node({});
+			
+			function init() {
+				model.element = document.body;
+				//
+				var stringNode = _insert(model, -1, new Node("a"));
+				_set(stringNode, "a*");
+				var booleanNode = _insert(model, -1, new Node(false));
+				_set(booleanNode, true);
+				var numberNode = _insert(model, -1, new Node(1));
+				_set(numberNode, 10);
+				var objectNode = _insert(model, -1, new Node({}));
+				_add(objectNode, "label_1", new Node("b"));
+				_add(objectNode, "label_2", new Node(true));
+				_add(objectNode, "label_3", new Node(2));
+				_remove(objectNode, "label_1");
+				var arrayNode = _insert(model, -1, new Node([]));
+				_insert(arrayNode, -1, new Node("c"));
+				_insert(arrayNode, -1, new Node(false));
+				_insert(arrayNode, -1, new Node(3));
+				//
+				_set(objectNode, {
+					name:"Echo",
+					age:21,
+					sex:false,
+					address: {
+						country: "China",
+						city: "GZ"
+					},
+					contacts: [
+						{relation:"mother",name:"Wang"},
+						{relation:"father",name:"Zhang"}
+					]
+				});
+			}
+			
+			function destroy() {
+			}
+			
+		</script>
+	</head>
+	<body onload="init()" onunload="destroy()">
+	</body>
+</html>

@@ -1,0 +1,41 @@
+
+<html>
+	<head>
+		<title>LoginDemo</title>
+		<script src="../../js/core/JSLoader.js"></script>
+		<script>
+			var jsloader = new JSLoader(document.URL.substring(0,document.URL.indexOf("demo")));
+			var Login = jsloader.resolve("tarah.Login");
+			var login = null;
+			
+			var LoginService = function() {
+				this.login = function(username, password) {
+					return "Zeus" == username && "Hela" == password;
+				};
+			};
+			
+			function init() {
+				login = new Login(root);
+				login.element.style.backgroundColor = "darkseagreen";
+				login.setLoginService(new LoginService());
+				login.eventPassed.addListener(function() {
+					alert("Passed!");
+				});
+			}
+			function destroy() {
+				login.destroy();
+			}
+		</script>
+	</head>
+	<body onload="init()" onunload="destroy()">
+		<div id="root" style="position: absolute; width: 400px; height: 300px"></div>
+		<div id="text" style="position: absolute; width: 400px; left: 450px">
+			<ul>
+				<li>居中
+				<li>登录正确弹出消息提示(Zeus/Hela)
+				<li>登录失败显示错误消息
+				<li>密码录入框不显示密码
+			</ul>
+		</div>
+	</body>
+</html>

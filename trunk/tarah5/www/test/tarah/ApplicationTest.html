@@ -1,0 +1,71 @@
+<html>
+	<head>
+		<title>ApplicationTest</title>
+		<script src="../../js/test/TestHelper.js"></script>
+		<script>
+			
+			// declarations
+			var Application, app;
+			
+			// Login mock
+			var loginCreated, loginDestroyed;
+			var LoginMock = function(container) {
+				this.container = container;
+				loginCreated = this;
+				this.onPassed = new (jsloader.resolve("core.CustomEvent"))();
+				this.destroy = function() {
+					loginDestroyed = this;
+				};
+			};
+			
+			// MainFrame mock
+			var mainFrameCreated;
+			var MainFrameMock = function(container) {
+				this.container = container;
+				mainFrameCreated = this;
+				this.destroy = function() {};
+			};
+
+			function setUp() {
+				// register
+				jsloader.register("tarah.Login", LoginMock);
+				jsloader.register("tarah.MainFrame", MainFrameMock);
+				Application = jsloader.resolve("tarah.Application");
+				// init mock-related
+				loginCreated = null;
+				loginDestroyed = null;
+				mainFrameCreated = null;
+				// init
+				app = new Application();
+			}
+			
+			function tearDown() {
+				// destroy
+				app.destroy();
+				// remove
+				jsloader.remove("tarah.Application");
+				jsloader.remove("tarah.Login");
+			}
+			
+			function testSuperclass() {
+				TestHelper.assertBeSubclassOfModule("Application", app);
+			}
+			
+			function testCreateLogin() {
+				TestHelper.assertHasChild("Application", "login", app, loginCreated, document.body);
+			}
+			
+			function testLoginPassed_destroyLogin() {
+				loginCreated.onPassed.fire();
+				TestHelper.assertChildDestroyed("Application", "login", app, loginDestroyed, loginCreated);
+			}
+			
+			function testLoginPassed_createMainFrame() {
+				loginCreated.onPassed.fire();
+				TestHelper.assertHasChild("Application", "mainFrame", app, mainFrameCreated, document.body);
+			}
+		</script>
+	</head>
+	<body>
+	</body>
+</html>

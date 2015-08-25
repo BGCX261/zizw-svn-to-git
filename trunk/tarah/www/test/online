@@ -1,0 +1,1 @@
+http://localhost:8080/jsunit/testRunner.html?testpage=http://localhost:8080/tarah/test/AllTests.html&autoRun=true&submitResults=http://localhost:8088/jsunit/acceptor

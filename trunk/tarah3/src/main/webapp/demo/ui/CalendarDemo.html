@@ -1,0 +1,27 @@
+
+<html>
+	<head>
+		<title>CalendarBaseDemo</title>
+		<script src="../../js/core/JSLoader.js"></script>
+		<script>
+			var jsloader = new JSLoader(document.URL.substring(0,document.URL.indexOf("demo")));
+			var Calendar = jsloader.resolve("ui.Calendar");
+			var calendar = null;
+			
+			function init() {
+				calendar = new Calendar(root);
+				calendar.element.style.backgroundColor = "darkseagreen";
+			}
+			function destroy() {
+				calendar.destroy();
+			}
+		</script>
+	</head>
+	<body onload="init()" onunload="destroy()">
+		<div id="root" style="position: absolute; width: 400px; height: 300px"></div>
+		<div id="text" style="position: absolute; width: 400px; left: 450px">
+			<ul>
+			</ul>
+		</div>
+	</body>
+</html>

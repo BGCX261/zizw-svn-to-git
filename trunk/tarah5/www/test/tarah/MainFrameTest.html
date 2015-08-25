@@ -1,0 +1,75 @@
+<html>
+	<head>
+		<title>MainFrameTest</title>
+		<script src="../../js/test/TestHelper.js"></script>
+		<script>
+		
+			// definitions
+			var MainFrame, mainFrame;
+			
+			// Grid mock
+			var gridCreated;
+			var GridMock = function(container) {
+				this.container = container;
+				gridCreated = this;
+				this.destroy = function() {};
+				this.doOnLoad = function() {};
+			};
+			
+			// DateController mock
+			var dateControllerCreated;
+			var gridHandler, gridThat;
+			var DateControllerMock = function(container) {
+				this.container = container;
+				dateControllerCreated = this;
+				this.destroy = function() {};
+				this.onLoad = {
+					addListener: function(handler, that) {
+						gridHandler = handler;
+						gridThat = that;
+					}
+				};
+			};
+			
+			function setUp() {
+				// register
+				jsloader.register("tarah.Grid", GridMock);
+				jsloader.register("tarah.DateController", DateControllerMock);
+				MainFrame = jsloader.resolve("tarah.MainFrame");
+				// init mock-related
+				gridCreated = null;
+				dateControllerCreated = null;
+				gridHandler = null;
+				gridThat = null;
+				// init
+				mainFrame = new MainFrame(document.body);
+			}
+			function tearDown() {
+				// destroy
+				mainFrame.destroy();
+				// remove
+				jsloader.remove("tarah.MainFrame");
+				jsloader.remove("tarah.Grid");
+				jsloader.remove("tarah.DateController");
+			}
+			function testInit() {
+				assertTrue("MainFrame should extend Module.", !!mainFrame.__module);
+			}
+			function testAppearance() {
+				assertEquals("MainFrame should have document.body as its contianer.", document.body, mainFrame.container);
+				assertTrue("MainFrame should have a slot named dateControllerSlot.", !!mainFrame.elemDateControllerSlot);
+				assertTrue("MainFrame should have a slot named gridSlot.", !!mainFrame.elemGridSlot);
+			}
+			function testChildren() {
+				TestHelper.assertHasChild("MainFrame", "grid", mainFrame, gridCreated, mainFrame.elemGridSlot);
+				TestHelper.assertHasChild("MainFrame", "dateController", mainFrame, dateControllerCreated, mainFrame.elemDateControllerSlot);
+			}
+			function testGridIsListeningOnLoad() {
+				assertEquals("The handler does not match.", gridCreated.doOnLoad, gridHandler);
+				assertEquals("The that does not match.", gridCreated, gridThat);
+			}
+		</script>
+	</head>
+	<body onload="if(parent==window)setUp()" onunload="if(parent==window)tearDown()">
+	</body>
+</html>

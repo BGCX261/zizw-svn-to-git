@@ -1,0 +1,91 @@
+<html>
+	<head>
+		<title>DateControllerTest</title>
+		<script src="../../js/test/TestHelper.js"></script>
+		<script>
+		
+			// definitions
+			var DateController, dateController;
+			
+			// Listener mock
+			var dateToLoad;
+			var ListenerMock = function(ev) {
+				dateToLoad = ev.dateToLoad;
+			};
+			
+			function setUp() {
+				// register
+				DateController = jsloader.resolve("tarah.DateController");
+				// init mock-related
+				dateToLoad = null;
+				// init
+				dateController = new DateController(document.body);
+				dateController.onLoad.addListener(ListenerMock);
+			}
+			
+			function tearDown() {
+				// destroy
+				dateController.destroy();
+				// remove
+				jsloader.remove("tarah.DateController");
+			}
+			
+			function testSuperclass() {
+				TestHelper.assertBeSubclassOfModule("DateController", dateController);
+			}
+			
+			function testStructure() {
+				TestHelper.assertElementPresent("DateController", AUI.DATE_CONTROLLER);
+				TestHelper.assertElementPresent("DateController year label", AUI.DATE_CONTROLLER_YEAR_LABEL);
+				TestHelper.assertElementPresent("DateController year input", AUI.DATE_CONTROLLER_YEAR_INPUT);
+				TestHelper.assertElementPresent("DateController month label", AUI.DATE_CONTROLLER_MONTH_LABEL);
+				TestHelper.assertElementPresent("DateController month input", AUI.DATE_CONTROLLER_MONTH_INPUT);
+				TestHelper.assertElementPresent("DateController day label", AUI.DATE_CONTROLLER_DAY_LABEL);
+				TestHelper.assertElementPresent("DateController day input", AUI.DATE_CONTROLLER_DAY_INPUT);
+				TestHelper.assertElementPresent("DateController load button", AUI.DATE_CONTROLLER_LOAD_BUTTON);
+			}
+			
+			function testLable() {
+				assertEquals("Year", sel.getText(AUI.DATE_CONTROLLER_YEAR_LABEL));
+				assertEquals("Month", sel.getText(AUI.DATE_CONTROLLER_MONTH_LABEL));
+				assertEquals("Day", sel.getText(AUI.DATE_CONTROLLER_DAY_LABEL));
+				assertEquals("Load", sel.getAttribute(AUI.DATE_CONTROLLER_LOAD_BUTTON+"/@value"));
+			}
+			
+			function testLoad_badDate() {
+				sel.doClick(AUI.DATE_CONTROLLER_LOAD_BUTTON);
+				assertTrue("On input bad date, a alert should present.", sel.isAlertPresent());
+				assertEquals("The alert message should be 'Bad Date.'.", "Bad date.", sel.getAlert());
+				//
+				sel.doType(AUI.DATE_CONTROLLER_YEAR_INPUT, "2005");
+				sel.doType(AUI.DATE_CONTROLLER_MONTH_INPUT, "13");
+				sel.doType(AUI.DATE_CONTROLLER_DAY_INPUT, "07");
+				sel.doClick(AUI.DATE_CONTROLLER_LOAD_BUTTON);
+				assertTrue("On input bad date, a alert should present.", sel.isAlertPresent());
+				assertEquals("The alert message should be 'Bad Date.", "Bad date.", sel.getAlert());
+				//
+				sel.doType(AUI.DATE_CONTROLLER_YEAR_INPUT, "2005");
+				sel.doType(AUI.DATE_CONTROLLER_MONTH_INPUT, "03");
+				sel.doType(AUI.DATE_CONTROLLER_DAY_INPUT, "37");
+				sel.doClick(AUI.DATE_CONTROLLER_LOAD_BUTTON);
+				assertTrue("On input bad date, a alert should present.", sel.isAlertPresent());
+				assertEquals("The alert message should be 'Bad Date.", "Bad date.", sel.getAlert());
+			}
+			
+			function testLoad_goodDate() {
+				sel.doType(AUI.DATE_CONTROLLER_YEAR_INPUT, "2005");
+				sel.doType(AUI.DATE_CONTROLLER_MONTH_INPUT, "06");
+				sel.doType(AUI.DATE_CONTROLLER_DAY_INPUT, "07");
+				sel.doClick(AUI.DATE_CONTROLLER_LOAD_BUTTON);
+				assertEquals("The date should be passed via onLoad event.", "2005-06-07", dateToLoad);
+				sel.doType(AUI.DATE_CONTROLLER_YEAR_INPUT, "1234");
+				sel.doType(AUI.DATE_CONTROLLER_MONTH_INPUT, "11");
+				sel.doType(AUI.DATE_CONTROLLER_DAY_INPUT, "16");
+				sel.doClick(AUI.DATE_CONTROLLER_LOAD_BUTTON);
+				assertEquals("The date should be passed via onLoad event.", "1234-11-16", dateToLoad);
+			}
+		</script>
+	</head>
+	<body>
+	</body>
+</html>

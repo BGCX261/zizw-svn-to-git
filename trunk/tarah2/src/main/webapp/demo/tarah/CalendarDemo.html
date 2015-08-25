@@ -1,0 +1,28 @@
+
+<html>
+	<head>
+		<title>CalendarDemo</title>
+		<script src="../../../../../../jsunit/app/jsUnitCore.js"></script>		
+		<script src="../../js/core/JSLoader.js"></script>
+		<script>
+			var jsloader = new JSLoader(document.URL.substring(0,document.URL.indexOf("demo")));
+			var domutils = jsloader.resolve("core.domutils");
+			
+			var Calendar = jsloader.resolve("tarah.Calendar");
+			var calendar = null;
+			
+			function setUp() {
+				calendar = new Calendar(document.body);
+				calendar.element.style.backgroundColor = "pink";
+			}
+			
+			function tearDown() {
+				calendar.destroy();
+			}
+			
+		</script>
+		<link href="../../css/default.css" rel="stylesheet" type="text/css"/>
+	</head>
+	<body onload="setUp();" onunload="tearDown();">
+	</body>
+</html>

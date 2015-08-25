@@ -1,0 +1,23 @@
+
+<html>
+	<head>
+		<title>CalendarTest</title>
+		<script>
+			document.write("<base href='" + document.URL.substring(0,document.URL.lastIndexOf("www-demo-test"))+"www/" + "'/>");
+		</script>
+		<script src="wajax/core/JSLoader.js"></script>
+		<script>
+			var jsloader = new JSLoader();
+			var calendar = null;
+			function init() {
+				calendar = new (jsloader.resolve("famon.Calendar"))(document.body);
+			}
+			function destroy() {
+				calendar.destruct();
+			}
+		</script>
+		<link href="famon/default.css" rel="stylesheet" type="text/css"/>
+	</head>
+	<body onload="init()" onunload="destroy()">
+	</body>	
+</html>

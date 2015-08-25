@@ -1,0 +1,22 @@
+
+<html>
+	<head>
+		<title>Tarah</title>
+		<script src="js/core/JSLoader.js"></script>
+		<script>
+		</script>
+		<script>				
+			var jsloader = new JSLoader();
+			var Login = jsloader.resolve("tarah.Login");
+			var login = null;
+			function init() {
+				login = new Login(document.body);
+			}
+			function destroy() {
+				login.destroy();
+			}			
+		</script>
+	</head>
+	<body onload="init()" onunload="destroy()">
+	</body>
+</html>

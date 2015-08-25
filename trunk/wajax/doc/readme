@@ -1,0 +1,23 @@
+
+======================================
+Project Initialization Checking List:
+	1) download jsunit and install
+	2) download eclipse plugin for jsunit and install
+	3) create build.properties populated with properties needed by build.xml
+	4) run target init-project in build.xml
+	5) in Window/Preferences/JsUnit:
+		a) set JsUnit installation dictionary to test/jsunit
+		b) add browser executables desired
+	6) run test/testInitProject.html as JsUnit Test Page
+	7) check: one testcase passed; the other failed
+	
+====================
+jsunit version used:
+	eclipse_plugin1.0alpha3.zip
+	jsunit2.2alpha11.zip
+
+======
+notes:
+	1) In all test cases, html tag should be followed 
+	   by <!-- saved from url=(0025)http://www.test.wajax.com -->
+	2) scratch.html is a temp file for quick spike

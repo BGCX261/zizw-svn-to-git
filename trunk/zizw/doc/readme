@@ -1,0 +1,8 @@
+
+1) 子组件不会更改父组件的任何属性
+2) 子组件只会以append，insertBefore，insertAfter的方式挂载到父组件
+3) 组件以constructor/destroy为生命周期
+4) constructor返回null意味着创建失败，状态完全回复到调用constructor之前
+5） 组件是一个Model/View/Controller三合一的联合体
+6) 如果一个函数或方法返回undefined即表示发生了异常，并经由一个wrapper处理过该异常
+7) 系统只认为远程调用才会带来异常，其他别的异常源被认为是程序的缺陷

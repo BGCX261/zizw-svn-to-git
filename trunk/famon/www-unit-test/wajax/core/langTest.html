@@ -1,0 +1,142 @@
+
+<html>
+	<head>
+		<title>langTest</title>
+		<script>
+			var bblert = alert;
+		</script>
+		<script src="file:///d:/programs/jsunit/app/jsUnitCore.js"></script>		
+		<script src="../../../www/wajax/core/JSLoader.js"></script>				
+		<script src="../../../selenium-browserbot/htmlutils.js"></script>							
+		<script src="../../../selenium-browserbot/selenium-logging.js"></script>				
+		<script src="../../../selenium-browserbot/selenium-browserdetect.js"></script>
+		<script src="../../../selenium-browserbot/selenium-browserbot.js"></script>
+		<script>
+			var jsloader = new JSLoader(document.URL.substring(0,document.URL.lastIndexOf("www-unit-test"))+"www/");
+			var lang = jsloader.resolve("wajax.core.lang");			
+			var bb = BrowserBot.createForWindow(window);
+			function setUp() {
+			}
+			function tearDown() {
+			}
+			
+			// ------------------------------------------------------------
+			// lang的责任是提供语言级别的扩展机制。
+			// ------------------------------------------------------------
+			
+			//
+			// 可以继承父类的方法
+			//
+			function testInheritMethod() {
+				var expectedValue = "superMethod";
+				var SuperClass = function() {
+				};
+				SuperClass.prototype.superMethod = function() {
+					return expectedValue;
+				};
+				var SubClass = function() {
+				};
+				lang.extend(SubClass, SuperClass);
+				var subObject = new SubClass();
+				var value = subObject.superMethod();
+				assertEquals(expectedValue, value);
+			}
+			
+			//
+			// 可以覆盖父类的方法
+			//
+			function testOverrideMethod() {
+				var expectedValue = "subMethod";
+				var SuperClass = function() {
+				};
+				SuperClass.prototype.superMethod = function() {
+					return "superMethod";
+				};
+				var SubClass = function() {
+				};
+				lang.extend(SubClass, SuperClass);
+				SubClass.prototype.superMethod = function() {
+					return expectedValue;
+				};
+				var subObject = new SubClass();
+				var value = subObject.superMethod();
+				assertEquals(expectedValue, value);
+			}
+			
+			//
+			// 可以继承父类的属性
+			//
+			function testInheritProperty() {
+				var expectedValue = "superProperty";
+				var SuperClass = function() {					
+				};
+				SuperClass.prototype.superProperty = expectedValue;
+				var SubClass = function() {
+				};
+				lang.extend(SubClass, SuperClass);
+				var subObject = new SubClass();
+				var value = subObject.superProperty;
+				assertEquals(expectedValue, value);
+			}
+			
+			//
+			// 可以覆盖父类的属性
+			//
+			function testOverrideProperty() {
+				var expectedValue = "subProperty";
+				var SuperClass = function() {
+				};
+				SuperClass.prototype.superProperty = "superProperty";
+				var SubClass = function() {
+				};
+				lang.extend(SubClass, SuperClass);
+				SuperClass.prototype.superProperty = expectedValue;
+				var subObject = new SubClass();
+				var value = subObject.superProperty;
+				assertEquals(expectedValue, value);
+			}
+			
+			//
+			// 可以调用父类的构造函数
+			//
+			function testInvokeSuperConstructor() {
+				var expectedValue = "fromSub";
+				var SuperClass = function(s) {
+					this.superProperty = s;
+				};
+				SuperClass.prototype.superProperty = "superProperty";
+				var SubClass = function() {
+					SubClass.superclass.constructor.call(this, expectedValue);
+				};
+				lang.extend(SubClass, SuperClass);
+				var subObject = new SubClass();
+				var value = subObject.superProperty;
+				assertEquals(expectedValue, value);
+			}
+			
+			//
+			// 可以调用父类的方法
+			//
+			function testInvokeSuperConstructor() {
+				var expectedValue = "[fromSuper]";
+				var SuperClass = function(s) {
+				};
+				SuperClass.prototype.superMethod = function() {
+					return "fromSuper";
+				};
+				var SubClass = function() {
+				};
+				lang.extend(SubClass, SuperClass);
+				SubClass.prototype.superMethod = function() {
+					return "["+SubClass.superclass.superMethod.call(this)+"]";
+				};
+				var subObject = new SubClass();
+				var value = subObject.superMethod();
+				assertEquals(expectedValue, value);
+			}
+		</script>
+	</head>
+	<body>
+		<input id="aButton" type="button" value="TEST"/>
+	</body>
+</html>

@@ -1,0 +1,556 @@
+
+<html>
+	<head>
+		<title>CalendarTest</title>
+		<script src="../../../../../../jsunit/app/jsUnitCore.js"></script>		
+		<script src="../../js/core/JSLoader.js"></script>
+		<script>
+			var jsloader = new JSLoader(document.URL.substring(0,document.URL.indexOf("test")));
+			var domutils = jsloader.resolve("core.domutils");
+		</script>		
+		<script src="../../../../../../selenium-core/core/scripts/htmlutils.js"></script>							
+		<script src="../../../../../../selenium-core/core/scripts/selenium-logging.js"></script>				
+		<script src="../../../../../../selenium-core/core/scripts/selenium-browserdetect.js"></script>		
+		<script src="../../../../../../selenium-core/core/xpath/misc.js"></script>		
+		<script src="../../../../../../selenium-core/core/xpath/xpath.js"></script>
+		<script src="../../../../../../selenium-core/core/scripts/selenium-browserbot.js"></script>
+		<script src="../../../../../../selenium-core/core/scripts/selenium-api.js"></script>
+		<script>
+			var bb = BrowserBot.createForWindow(window);
+			var sel = new Selenium(bb);
+			var AUI = jsloader.resolve("tarah.AUI");
+			
+			var Calendar = jsloader.resolve("tarah.Calendar");
+			var calendar = null;
+			
+			var DEMO = parent==window;
+			
+			function setUp() {
+				calendar = new Calendar(document.body);
+			}
+			
+			function tearDown() {
+				calendar.destroy();
+			}
+			
+			// ------------------------------------------------------------
+			// 
+			// ------------------------------------------------------------
+
+			function testFormatDate() {
+				var expectedString = null, string = null, date = null;
+				//
+				expectedString = "2007-01-01";
+				date = new Date();
+					date.setFullYear(2007);
+					date.setMonth(0);
+					date.setDate(1);
+				string = Calendar.formatDate(date);
+				assertEquals(expectedString, string);
+				//
+				expectedString = "2007-11-01";
+				date = new Date();
+					date.setFullYear(2007);
+					date.setMonth(10);
+					date.setDate(1);
+				string = Calendar.formatDate(date);
+				assertEquals(expectedString, string);
+				//
+				expectedString = "2007-01-11";
+				date = new Date();
+					date.setFullYear(2007);
+					date.setMonth(0);
+					date.setDate(11);
+				string = Calendar.formatDate(date);
+				assertEquals(expectedString, string);
+				//
+				expectedString = "2007-11-11";
+				date = new Date();
+					date.setFullYear(2007);
+					date.setMonth(10);
+					date.setDate(11);
+				string = Calendar.formatDate(date);
+				assertEquals(expectedString, string);
+				
+			}
+			function testMatrix() {
+				var expectedMatrix = null, matrix = null;				
+				// 0: 2007-07
+				expectedMatrix = [
+					[24,25,26,27,28,29,30],
+					[ 1, 2, 3, 4, 5, 6, 7],
+					[ 8, 9,10,11,12,13,14],
+					[15,16,17,18,19,20,21],
+					[22,23,24,25,26,27,28],
+					[29,30,31, 1, 2, 3, 4],
+					[ 5, 6, 7, 8, 9,10,11]
+				];
+				matrix = Calendar.calcMatrix(2007, 7);
+				checkMatrix(expectedMatrix, matrix);
+				// 1: 2007-10
+				expectedMatrix = [
+					[23,24,25,26,27,28,29],
+					[30, 1, 2, 3, 4, 5, 6],
+					[ 7, 8, 9,10,11,12,13],
+					[14,15,16,17,18,19,20],
+					[21,22,23,24,25,26,27],
+					[28,29,30,31, 1, 2, 3],
+					[ 4, 5, 6, 7, 8, 9,10]
+				];
+				matrix = Calendar.calcMatrix(2007, 10);
+				checkMatrix(expectedMatrix, matrix);
+				// 2: 2007-05
+				expectedMatrix = [
+					[22,23,24,25,26,27,28],
+					[29,30, 1, 2, 3, 4, 5],
+					[ 6, 7, 8, 9,10,11,12],
+					[13,14,15,16,17,18,19],
+					[20,21,22,23,24,25,26],
+					[27,28,29,30,31, 1, 2],
+					[ 3, 4, 5, 6, 7, 8, 9]
+				];
+				matrix = Calendar.calcMatrix(2007, 5);
+				checkMatrix(expectedMatrix, matrix);
+				// 3: 2007-08
+				expectedMatrix = [
+					[22,23,24,25,26,27,28],
+					[29,30,31, 1, 2, 3, 4],
+					[ 5, 6, 7, 8, 9,10,11],
+					[12,13,14,15,16,17,18],
+					[19,20,21,22,23,24,25],
+					[26,27,28,29,30,31, 1],
+					[ 2, 3, 4, 5, 6, 7, 8]
+				];
+				matrix = Calendar.calcMatrix(2007, 8);
+				checkMatrix(expectedMatrix, matrix);
+				// 4: 2007-11
+				expectedMatrix = [
+					[21,22,23,24,25,26,27],
+					[28,29,30,31, 1, 2, 3],
+					[ 4, 5, 6, 7, 8, 9,10],
+					[11,12,13,14,15,16,17],
+					[18,19,20,21,22,23,24],
+					[25,26,27,28,29,30, 1],
+					[ 2, 3, 4, 5, 6, 7, 8]
+				];
+				matrix = Calendar.calcMatrix(2007, 11);
+				checkMatrix(expectedMatrix, matrix);
+				// 5: 2007-06
+				expectedMatrix = [
+					[20,21,22,23,24,25,26],
+					[27,28,29,30,31, 1, 2],
+					[ 3, 4, 5, 6, 7, 8, 9],
+					[10,11,12,13,14,15,16],
+					[17,18,19,20,21,22,23],
+					[24,25,26,27,28,29,30],
+					[ 1, 2, 3, 4, 5, 6, 7]
+				];
+				matrix = Calendar.calcMatrix(2007, 6);
+				checkMatrix(expectedMatrix, matrix);
+				// 6: 2007-12
+				expectedMatrix = [
+					[18,19,20,21,22,23,24],
+					[25,26,27,28,29,30, 1],
+					[ 2, 3, 4, 5, 6, 7, 8],
+					[ 9,10,11,12,13,14,15],
+					[16,17,18,19,20,21,22],
+					[23,24,25,26,27,28,29],
+					[30,31, 1, 2, 3, 4, 5]
+				];
+				matrix = Calendar.calcMatrix(2007, 12);
+				checkMatrix(expectedMatrix, matrix);
+			}
+			function checkMatrix(expectedMatrix, matrix) {
+				assertEquals(expectedMatrix.length, matrix.length);
+				for ( var i = 0; i < matrix.length; i++ ) {
+					var expectedRow = expectedMatrix[i];
+					var row = matrix[i];
+					assertEquals(expectedRow.length, row.length);
+					for ( var j = 0; j < row.length; j++ ) {
+						var expectedCell = expectedRow[j];
+						var cell = row[j];
+						assertEquals(expectedCell, cell);
+					}
+				}
+			}
+			
+			function testSetDate() {
+				var date = new Date();
+				date.setFullYear(2007);
+				date.setMonth(11);
+				date.setDate(11);
+				calendar.setDate(date);
+				//
+				assertEquals(2007, calendar.year);
+				assertEquals(12, calendar.month);
+				assertEquals(11, calendar.dayOfMonth);
+				assertEquals(2, calendar.day);
+				assertEquals(18, calendar.matrix[0][0]);
+				assertEquals(3, calendar.week);
+			}
+			
+			function testNextDay() {
+				var date = null;
+				//----------current week, 2007-12-12:3-3, 2007-12-13:3-4
+				date = new Date();
+				date.setFullYear(2007);
+				date.setMonth(11);
+				date.setDate(12);
+				calendar.setDate(date);
+				calendar.nextDay();
+				//
+				assertEquals(2007, calendar.year);
+				assertEquals(12, calendar.month);
+				assertEquals(13, calendar.dayOfMonth);
+				assertEquals(3, calendar.week);
+				assertEquals(4, calendar.day);
+				//----------cross week, 2007-12-15:3-6, 2007-12-16:4-0
+				date = new Date();
+				date.setFullYear(2007);
+				date.setMonth(11);
+				date.setDate(15);
+				calendar.setDate(date);
+				calendar.nextDay();
+				//
+				assertEquals(2007, calendar.year);
+				assertEquals(12, calendar.month);
+				assertEquals(16, calendar.dayOfMonth);
+				assertEquals(4, calendar.week);
+				assertEquals(0, calendar.day);
+				//----------cross month, 2007-11-30:5-5, 2007-12-1:1-6
+				date = new Date();
+				date.setFullYear(2007);
+				date.setMonth(10);
+				date.setDate(30);
+				calendar.setDate(date);
+				calendar.nextDay();
+				//
+				assertEquals(2007, calendar.year);
+				assertEquals(12, calendar.month);
+				assertEquals(1, calendar.dayOfMonth);
+				assertEquals(1, calendar.week);
+				assertEquals(6, calendar.day);
+				//----------cross year, 2007-12-31:6-1, 2008-01-01:1-2
+				date = new Date();
+				date.setFullYear(2007);
+				date.setMonth(11);
+				date.setDate(31);
+				calendar.setDate(date);
+				calendar.nextDay();
+				//
+				assertEquals(2008, calendar.year);
+				assertEquals(1, calendar.month);
+				assertEquals(1, calendar.dayOfMonth);
+				assertEquals(1, calendar.week);
+				assertEquals(2, calendar.day);
+			}
+			
+			function testPrevDay() {
+				var date = null;
+				//----------current week, 2007-12-12:3-3, 2007-12-13:3-4
+				date = new Date();
+				date.setFullYear(2007);
+				date.setMonth(11);
+				date.setDate(13);
+				calendar.setDate(date);
+				calendar.prevDay();
+				//
+				assertEquals(2007, calendar.year);
+				assertEquals(12, calendar.month);
+				assertEquals(12, calendar.dayOfMonth);
+				assertEquals(3, calendar.week);
+				assertEquals(3, calendar.day);
+				//----------cross week, 2007-12-15:3-6, 2007-12-16:4-0
+				date = new Date();
+				date.setFullYear(2007);
+				date.setMonth(11);
+				date.setDate(16);
+				calendar.setDate(date);
+				calendar.prevDay();
+				//
+				assertEquals(2007, calendar.year);
+				assertEquals(12, calendar.month);
+				assertEquals(15, calendar.dayOfMonth);
+				assertEquals(3, calendar.week);
+				assertEquals(6, calendar.day);
+				//----------cross month, 2007-11-30:5-5, 2007-12-1:1-6
+				date = new Date();
+				date.setFullYear(2007);
+				date.setMonth(11);
+				date.setDate(1);
+				calendar.setDate(date);
+				calendar.prevDay();
+				//
+				assertEquals(2007, calendar.year);
+				assertEquals(11, calendar.month);
+				assertEquals(30, calendar.dayOfMonth);
+				assertEquals(5, calendar.week);
+				assertEquals(5, calendar.day);
+				//----------cross year, 2007-12-31:6-1, 2008-01-01:1-2
+				date = new Date();
+				date.setFullYear(2008);
+				date.setMonth(0);
+				date.setDate(1);
+				calendar.setDate(date);
+				calendar.prevDay();
+				//
+				assertEquals(2007, calendar.year);
+				assertEquals(12, calendar.month);
+				assertEquals(31, calendar.dayOfMonth);
+				assertEquals(6, calendar.week);
+				assertEquals(1, calendar.day);
+			}
+			
+			function testNextMonth() {
+				var date = null;
+				//----------current year, 2007-01-01, 2007-02-01
+				date = new Date();
+				date.setFullYear(2007);
+				date.setMonth(0);
+				date.setDate(1);
+				calendar.setDate(date);
+				calendar.nextMonth();
+				//
+				assertEquals(2007, calendar.year);
+				assertEquals(2, calendar.month);
+				assertEquals(1, calendar.dayOfMonth);
+				//----------current year, feb, 2007-01-31, 2007-02-28
+				date = new Date();
+				date.setFullYear(2007);
+				date.setMonth(0);
+				date.setDate(31);
+				calendar.setDate(date);
+				calendar.nextMonth();
+				//
+				assertEquals(2007, calendar.year);
+				assertEquals(2, calendar.month);
+				assertEquals(28, calendar.dayOfMonth);
+				//----------cross year, 2007-12-01, 2008-01-01
+				date = new Date();
+				date.setFullYear(2007);
+				date.setMonth(11);
+				date.setDate(1);
+				calendar.setDate(date);
+				calendar.nextMonth();
+				//
+				assertEquals(2008, calendar.year);
+				assertEquals(1, calendar.month);
+				assertEquals(1, calendar.dayOfMonth);
+			}
+			
+			function testPrevMonth() {
+				var date = null;
+				//----------current year, 2007-01-01, 2007-02-01
+				date = new Date();
+				date.setFullYear(2007);
+				date.setMonth(1);
+				date.setDate(1);
+				calendar.setDate(date);
+				calendar.prevMonth();
+				//
+				assertEquals(2007, calendar.year);
+				assertEquals(1, calendar.month);
+				assertEquals(1, calendar.dayOfMonth);
+				//----------current year, feb, 2007-02-28, 2007-03-31
+				date = new Date();
+				date.setFullYear(2007);
+				date.setMonth(2);
+				date.setDate(31);
+				calendar.setDate(date);
+				calendar.prevMonth();
+				//
+				assertEquals(2007, calendar.year);
+				assertEquals(2, calendar.month);
+				assertEquals(28, calendar.dayOfMonth);
+				//----------cross year, 2007-12-01, 2008-01-01
+				date = new Date();
+				date.setFullYear(2008);
+				date.setMonth(0);
+				date.setDate(1);
+				calendar.setDate(date);
+				calendar.prevMonth();
+				//
+				assertEquals(2007, calendar.year);
+				assertEquals(12, calendar.month);
+				assertEquals(1, calendar.dayOfMonth);
+			}
+			
+			function testNextYear() {				
+				var date = null;
+				//----------2004-02-29, 2005-02-28
+				date = new Date();
+				date.setFullYear(2004);
+				date.setMonth(1);
+				date.setDate(29);
+				calendar.setDate(date);
+				calendar.nextYear();
+				//
+				assertEquals(2005, calendar.year);
+				assertEquals(2, calendar.month);
+				assertEquals(28, calendar.dayOfMonth);
+				//----------2004-02-01, 2005-02-01
+				date = new Date();
+				date.setFullYear(2004);
+				date.setMonth(1);
+				date.setDate(1);
+				calendar.setDate(date);
+				calendar.nextYear();
+				//
+				assertEquals(2005, calendar.year);
+				assertEquals(2, calendar.month);
+				assertEquals(1, calendar.dayOfMonth);
+			}
+
+			function testPrevYear() {				
+				var date = null;
+				//----------2003-02-28, 2004-02-29 
+				date = new Date();
+				date.setFullYear(2004);
+				date.setMonth(1);
+				date.setDate(29);
+				calendar.setDate(date);
+				calendar.prevYear();
+				//
+				assertEquals(2003, calendar.year);
+				assertEquals(2, calendar.month);
+				assertEquals(28, calendar.dayOfMonth);
+				//----------2004-02-01, 2005-02-01
+				date = new Date();
+				date.setFullYear(2005);
+				date.setMonth(1);
+				date.setDate(1);
+				calendar.setDate(date);
+				calendar.prevYear();
+				//
+				assertEquals(2004, calendar.year);
+				assertEquals(2, calendar.month);
+				assertEquals(1, calendar.dayOfMonth);
+			}
+			
+			function testPresentation() {
+				var date = new Date();
+				assertTrue(sel.isElementPresent(AUI.CALENDAR));
+				//
+				var expectedYear = ""+date.getFullYear();
+				var year = sel.getText(AUI.CALENDAR_YEAR);
+				assertEquals(expectedYear, year);
+				//
+				var expectedMonth = ""+(date.getMonth()+1);
+				var month = sel.getText(AUI.CALENDAR_MONTH);
+				assertEquals(expectedMonth, month);
+				//
+				var expectedMatrix = Calendar.calcMatrix(date.getFullYear(), date.getMonth()+1);
+				for ( var i = 0; i < expectedMatrix.length; i++ ) {
+					var expectedRow = expectedMatrix[i];
+					for ( var j = 0; j < expectedRow.length; j++ ) {
+						var expectedCell = ""+expectedRow[j];
+						var locator = AUI.CALENDAR_DAYS + "//tr[" + (i+1) + "]/td[" + (j+1) + "]";
+						var cell = sel.getText(locator);
+						assertEquals(expectedCell, cell);
+					}
+				}
+			}
+			
+			function testYearNavigator() {
+				var date = new Date();
+				var expectedYear = date.getFullYear();
+				//
+				sel.doClick(AUI.CALENDAR_NEXT_YEAR);
+				expectedYear++;
+				assertEquals(expectedYear+"", sel.getText(AUI.CALENDAR_YEAR));
+				assertEquals(calendar.matrix[0][0]+"", sel.getText(AUI.CALENDAR_DAYS + "//tr[1]/td[1]"));
+				//
+				sel.doClick(AUI.CALENDAR_PREV_YEAR);
+				sel.doClick(AUI.CALENDAR_PREV_YEAR);
+				expectedYear--;
+				expectedYear--;
+				assertEquals(expectedYear+"", sel.getText(AUI.CALENDAR_YEAR));
+				assertEquals(calendar.matrix[0][0]+"", sel.getText(AUI.CALENDAR_DAYS + "//tr[1]/td[1]"));
+			}
+			
+			function testClassName_year() {
+				var locator = AUI.CALENDAR_YEAR;
+				var elem = bb.locateElementByXPath(locator, document, window);
+				assertTrue(domutils.hasClassName(elem, "calendar-year"));
+			}
+
+			function testClassName_month() {
+				var locator = AUI.CALENDAR_MONTH;
+				var elem = bb.locateElementByXPath(locator, document, window);
+				assertTrue(domutils.hasClassName(elem, "calendar-month"));
+			}
+			
+			function testClassName_nextYear() {
+				var locator = AUI.CALENDAR_NEXT_YEAR;
+				var elem = bb.locateElementByXPath(locator, document, window);
+				assertTrue(domutils.hasClassName(elem, "calendar-nextYear"));
+			}
+
+			function testClassName_prevYear() {
+				var locator = AUI.CALENDAR_PREV_YEAR;
+				var elem = bb.locateElementByXPath(locator, document, window);
+				assertTrue(domutils.hasClassName(elem, "calendar-prevYear"));
+			}
+									
+			function testClassName_days() {
+				var flag = true;
+				for ( var i = 0; i < calendar.matrix.length; i++ ) {
+					var row = calendar.matrix[i];
+					for ( var j = 0; j < row.length; j++ ) {
+						var locator = AUI.CALENDAR_DAYS + "//tr[" + (i+1) + "]/td[" + (j+1) + "]";
+						var td = bb.locateElementByXPath(locator, document, window);
+						assertEquals("pointer", td.style.cursor);
+						var cell = row[j];
+						assertTrue(domutils.hasClassName(td, "calendar-day"));
+						if ( flag ) {
+							if ( 1 == cell ) {
+								assertTrue(domutils.hasClassName(td, "calendar-dayOfCurrentMonth"));
+								flag = false;
+							} else {
+								assertFalse(domutils.hasClassName(td, "calendar-dayOfCurrentMonth"));
+							}
+						} else {
+							if ( 1 == cell ) {
+								assertFalse(domutils.hasClassName(td, "calendar-dayOfCurrentMonth"));							
+								flag = true;
+							} else {
+								assertTrue(domutils.hasClassName(td, "calendar-dayOfCurrentMonth"));
+							}
+						}
+					}
+				}
+			}
+			
+			function testClassName_currentDay() {				
+				var locator = AUI.CALENDAR_DAYS + "//tr[" + (calendar.week+1) + "]/td[" + (calendar.day+1) + "]";
+				var td = bb.locateElementByXPath(locator, document, window);
+				assertTrue(domutils.hasClassName(td, "calendar-daySelected"));
+			}
+
+			function testStyle_yearNavigator() {
+				var prevYear = bb.locateElementByXPath(AUI.CALENDAR_PREV_YEAR, document, window);
+				assertEquals("pointer", prevYear.style.cursor);
+				var nextYear = bb.locateElementByXPath(AUI.CALENDAR_NEXT_YEAR, document, window);
+				assertEquals("pointer", nextYear.style.cursor);
+			}
+
+			function testDayNavigator() {
+				var date = new Date();
+				date.setFullYear(2007);
+				date.setMonth(10);
+				date.setDate(1);
+				calendar.setDate(date);
+				//
+				var locator = AUI.CALENDAR_DAYS + "//tr[2]/td[6]";
+				sel.doClick(locator);
+				//
+				var td = bb.locateElementByXPath(locator, document, window);
+				assertTrue(domutils.hasClassName(td, "calendar-daySelected"));
+			}
+
+		</script>
+		<link href="../../css/default.css" rel="stylesheet" type="text/css"/>
+	</head>
+	<body onload="if(DEMO)setUp();" onunload="if(DEMO)tearDown();">
+	</body>
+</html>

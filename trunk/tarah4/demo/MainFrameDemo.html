@@ -1,0 +1,22 @@
+
+<html>
+	<head>
+		<title>MainFrameDemo</title>
+		<script src="../js/core/JSLoader.js"></script>
+		<script>
+			var jsloader = new JSLoader(document.URL.substring(0,document.URL.indexOf("demo")));
+			var MainFrame = jsloader.resolve("tarah.MainFrame");
+			var mainFrame = null;
+			
+			function init() {
+				mainFrame = new MainFrame();
+				mainFrame.element.style.backgroundColor = "darkseagreen";
+			}
+			function destroy() {
+				mainFrame.destroy();
+			}
+		</script>
+	</head>
+	<body onload="init()" onunload="destroy()">
+	</body>
+</html>

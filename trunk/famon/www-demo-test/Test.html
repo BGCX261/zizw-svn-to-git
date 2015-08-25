@@ -1,0 +1,22 @@
+
+<html>
+	<head>
+		<title></title>
+		<script>
+			document.write("<base href='" + document.URL.substring(0,document.URL.lastIndexOf("www-demo-test"))+"www/" + "'/>");
+		</script>
+		<script src="wajax/core/JSLoader.js"></script>
+		<script>
+			var jsloader = new JSLoader();
+			function init() {
+				alert("do init. jsloader: " + jsloader);
+			}
+			function destroy() {
+				alert("do destroy");
+			}
+		</script>
+		<link href="famon/default.css" rel="stylesheet" type="text/css"/>
+	</head>
+	<body onload="init()" onunload="destroy()">
+	</body>	
+</html>

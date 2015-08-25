@@ -1,0 +1,48 @@
+<html>
+	<head>
+		<title>DBValidatorTest</title>
+		<script src="../../js/core/JSLoader.js"></script>
+		<script src="../../../../jsunit/app/jsUnitCore.js"></script>
+		<script>
+			var jsloader = new JSLoader(document.URL.substring(0, document.URL.indexOf("test")));
+		</script>
+		<script>
+			var Connection = jsloader.resolve("server.impl.Connection");
+			var DBValidator, dbvalidator, doneList, mock;
+			function setUp() {
+				DBValidator = jsloader.resolve("server.impl.dbvalidator.DBTarahValidator");
+				mock = {
+					validateTableA: function() {
+						doneList["A"] = true;
+					},
+					validateTableB: function() {
+						doneList["B"] = true;
+					},
+					validateTableC: function() {
+						doneList["C"] = true;
+					}
+				};
+				doneList = {
+					"A": false,
+					"B": false,
+					"C": false
+				};
+				dbvalidator = new DBValidator("test");
+			}
+			function tearDown() {
+				jsloader.remove("server.DBValidator");
+			}
+			function testDoValidateMock() {
+				dbvalidator.doValidate.call(mock);
+				assertTrue("validateTableA should be invoked.", doneList["A"]);
+				assertTrue("validateTableB should be invoked.", doneList["B"]);
+				assertTrue("validateTableC should be invoked.", doneList["C"]);
+			}
+			function testDoValidate() {
+				dbvalidator.doValidate();
+			}
+		</script>
+	</head>
+	<body>
+	</body>
+</html>

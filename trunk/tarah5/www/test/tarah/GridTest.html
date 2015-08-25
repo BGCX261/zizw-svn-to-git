@@ -1,0 +1,167 @@
+<html>
+	<head>
+		<title>GridTest</title>
+		<script src="../../js/test/TestHelper.js"></script>
+		<script>
+			
+			// dependencies
+			var AUI = jsloader.resolve("tarah.AUI");
+		
+			// declarations
+			var Grid, grid;
+			
+			// Editor mock
+			var createdEditors, destroyedEditors;
+			var CellEditorFactoryMock = {
+				createEditor: function(cell) {
+					var editor = {
+						cell: cell,
+						destroy: function() {
+							destroyedEditors.push(this);
+						}
+					};
+					createdEditors.push(editor);
+					return editor;
+				}
+			};
+			
+			// GridService mock
+			var GridServiceMock = {
+				load: function(date) {
+					if ( "1970-01-01" == date ) {
+						return model_1;
+					} else {
+						return [];
+					}
+				}
+			};
+			
+			// model_1 mock
+			var model_1 = [
+				[ 1, 10.00, "aa" ],
+				[ 2, 20.00, "bb" ]
+				];
+			
+			// onLoad mock
+			var onLoad = new CustomEvent();
+			
+			function setUp() {
+				// register
+				jsloader.register("server.GridService", GridServiceMock);
+				jsloader.register("tarah.CellEditorFactory", CellEditorFactoryMock);
+				Grid = jsloader.resolve("tarah.Grid");
+				// init mock-related
+				createdEditors = [];
+				destroyedEditors = [];
+				// init
+				grid = new Grid(document.body);
+				onLoad.addListener(grid.doOnLoad, grid);
+			}
+			
+			function tearDown() {
+				// destroy
+				grid.destroy();
+				// remove
+				jsloader.remove("tarah.Grid");
+				jsloader.remove("tarah.CellEditorFactory");
+				jsloader.remove("server.GridService");
+			}
+			
+			function testStructure() {
+				TestHelper.assertElementPresent("Grid", AUI.GRID);
+				TestHelper.assertElementPresent("Grid title", AUI.GRID_TITLE);
+				TestHelper.assertElementPresent("Grid header", AUI.GRID_HEADER);
+				TestHelper.assertElementPresent("Grid body", AUI.GRID_BODY);
+			}	
+			
+			function testOnLoad_title() {
+				var dateToLoad = "2005-02-19";
+				onLoad.fire({dateToLoad:dateToLoad});
+				var title = sel.getText(AUI.GRID_TITLE);
+				assertEquals("Grid title should be the date to load.", dateToLoad, title);
+			}
+			
+			function testOnLoad_grid() {
+				var dateToLoad = "1970-01-01";
+				var model = model_1;
+				var modelRows = model.length;
+				onLoad.fire({dateToLoad:dateToLoad});
+				var tbody = bb.locateElementByXPath(AUI.GRID_BODY, document, window);
+				for ( var i = 0; i < tbody.rows.length; i++ ) {
+					var row = tbody.rows[i];
+					for ( var j = 0; j < row.cells.length; j++ ) {
+						var cell = row.cells[j];
+						if ( i >= modelRows ) {
+							assertNull("Cell's value should be null.", cell.getAttribute("__value"));
+						} else {
+							assertEquals("Cell's value should be the same as model[i][j].", ""+model[i][j], ""+cell.getAttribute("__value"));							
+						}
+					}
+				}
+			}
+			
+			function testColumnHeader() {
+				assertEquals("Column header cell's count not match", 3, grid.elemGridHeader.rows[0].cells.length);
+				assertEquals("Column header cell[0]'s text not match", "Type", sel.getText(AUI.GRID_HEADER+"/tr[1]/td[1]"));
+				assertEquals("Column header cell[1]'s text not match", "Amount", sel.getText(AUI.GRID_HEADER+"/tr[1]/td[2]"));
+				assertEquals("Column header cell[2]'s text not match", "Description", sel.getText(AUI.GRID_HEADER+"/tr[1]/td[3]"));
+				assertEquals("Default row count not match.", Grid.DEFAULT_ROW_COUNT, grid.elemGridBody.rows.length);
+			}
+			
+			function testInitialRows() {
+				for ( var i = 0; i < Grid.DEFAULT_ROW_COUNT; i++ ) {
+					assertEquals("Column count not match.", 3, grid.elemGridBody.rows[i].cells.length);
+					for ( var j = 0; j < grid.elemGridBody.rows[i].cells.length; j++ ) {
+						assertEquals("Default content is not blank.", "&nbsp;", grid.elemGridBody.rows[i].cells[j].innerHTML);
+					}
+				}
+				assertNull("Initially, grid's current cell should be null.", grid.currentCell);
+			}
+			
+			function testClickGridBody_Cell() {
+				sel.doMouseDown(AUI.GRID_BODY+"/tr[1]/td[1]");
+				assertEquals("Grid's current row index should be 0.", 0, grid.currentCell.parentNode.rowIndex);
+				assertEquals("Grid's current cell index should be 0.", 0, grid.currentCell.cellIndex);
+				sel.doMouseDown(AUI.GRID_BODY+"/tr[5]/td[3]");
+				assertEquals("Grid's current row index should be 4.", 4, grid.currentCell.parentNode.rowIndex);
+				assertEquals("Grid's current cell index should be 2.", 2, grid.currentCell.cellIndex);
+			}
+			
+			function testClickGridBody_Row() {
+				sel.doMouseDown(AUI.GRID_BODY+"/tr[1]");
+				assertNull("Grid's current cell should be null.", grid.currentCell);
+			}
+			
+			function testClickGridBody() {
+				sel.doMouseDown(AUI.GRID_BODY);
+				assertNull("Grid's current cell should be null.", grid.currentCell);
+			}
+			
+			function testCreateEditor_noCurrentCell() {
+				var locator = AUI.GRID_BODY+"/tr[1]/td[1]";
+				sel.doMouseDown(locator);
+				var td = bb.locateElementByXPath(locator, document, window);
+				assertEquals("There should be exactly ONE editor.", 1, createdEditors.length);
+				assertEquals("Grid's current editor should be the created one.", createdEditors[0], grid.currentEditor);
+				assertEquals("Current editor's cell should be the selected TD.", td, grid.currentEditor.cell);
+			}
+			
+			function testCreateEditor_withCurrentCell() {
+				var locator = AUI.GRID_BODY+"/tr[1]/td[1]";
+				sel.doMouseDown(locator);
+				var oldEditor = grid.currentEditor;
+				locator = AUI.GRID_BODY+"/tr[2]/td[2]";
+				sel.doMouseDown(locator);
+				var td = bb.locateElementByXPath(locator, document, window);
+				assertEquals("There should be two editor in created-list.", 2, createdEditors.length);
+				assertEquals("There should be exactly ONE editor in destroyed-list.", 1, destroyedEditors.length);
+				assertEquals("Grid's current editor should be the created one.", createdEditors[1], grid.currentEditor);
+				assertEquals("Current editor's cell should be the selected TD.", td, grid.currentEditor.cell);
+				assertEquals("Destroyed editor should be the previsous editor.", oldEditor, destroyedEditors[0]);
+			}
+			
+		</script>
+	</head>
+	<body onload="if(parent==window)setUp()" onunload="if(parent==window)tearDown()">
+	</body>
+</html>

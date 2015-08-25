@@ -1,0 +1,21 @@
+
+<html>
+	<head>
+		<title>allTests</title>
+		<script src="jsunit/app/jsUnitCore.js"></script>
+		<script>
+			function suiteCore() {
+				var result = new top.jsUnitTestSuite();
+				result.addTestPage("../core/testJsloader.html");
+				return result;
+			}
+			function suite() {
+				var allTests = new top.jsUnitTestSuite();
+				allTests.addTestSuite(suiteCore());
+				return allTests;
+			}
+		</script>
+	</head>
+	<body>
+	</body>
+</html>

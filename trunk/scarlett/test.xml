@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+xmlns:svg="http://www.w3.org/2000/svg" 
+xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+>
+<head>
+
+</head>
+<body>
+  <svg:svg width="60px" height="40px" style="display:block;">
+    <svg:polygon id="triangle" points="5,5 5,30 30,30"
+                 style=" fill:blue; stroke:black;"/>
+  </svg:svg>
+</body>
+</html>

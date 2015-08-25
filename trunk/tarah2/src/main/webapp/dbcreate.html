@@ -1,0 +1,23 @@
+
+<html>
+	<head>
+		<title>dbcreate</title>		
+		<script src="js/core/JSLoader.js"></script>
+		<script>
+		</script>
+		<script>				
+			var jsloader = new JSLoader();
+			var db = null;
+			function init() {
+				db = new (jsloader.resolve("server.DBTarah"))();
+				db.create();
+				db.populate();
+			}
+			function destroy() {
+			}
+		</script>
+		<link href="css/default.css" rel="stylesheet" type="text/css"/>
+	</head>
+	<body onload="init()" onunload="destroy()">
+	</body>
+</html>

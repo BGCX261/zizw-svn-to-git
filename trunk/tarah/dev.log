@@ -1,0 +1,14 @@
+15:43 2007-11-28
+
+# 通过Login.login(username, password)来登录 15:49 2007-11-28
+# 通过jsloader.resolve("com.honmansoft.tarah.facade.Login")来获取Login对象  18:42 2007-11-28
+	# 添加jsloader 17:34 2007-11-28
+		# 添加jsloader.doGet() 17:34 2007-11-28
+		# 添加jsloader.resolve() 17:34 2007-11-28
+# 将invoke提取出来，明确哪些代码是需要生成的 19:02 2007-11-28
+# 在js中固化一个rpc.Meta对象，将请求的服务名传递到后端 20:18 2007-11-28
+# 添加个java的Meta对象，接受服务名，并返回任意字符串 20:18 2007-11-28
+# java的Meta对象，返回Login 20:18 2007-11-28
+# java的Meta对象，生成Login对象来返回 20:18 2007-11-28
+
+

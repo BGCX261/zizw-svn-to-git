@@ -1,0 +1,289 @@
+
+<html>
+	<head>
+		<title>SheetProt</title>
+		<script src="../../../../../../jsunit/app/jsUnitCore.js"></script>		
+		<script src="../../js/core/JSLoader.js"></script>
+		<script>
+			var jsloader = new JSLoader(document.URL.substring(0,document.URL.indexOf("prot")));
+			var domutils = jsloader.resolve("core.domutils");
+		</script>		
+		<script src="../../../../../../selenium-core/core/scripts/htmlutils.js"></script>							
+		<script src="../../../../../../selenium-core/core/scripts/selenium-logging.js"></script>				
+		<script src="../../../../../../selenium-core/core/scripts/selenium-browserdetect.js"></script>		
+		<script src="../../../../../../selenium-core/core/xpath/misc.js"></script>		
+		<script src="../../../../../../selenium-core/core/xpath/xpath.js"></script>
+		<script src="../../../../../../selenium-core/core/scripts/selenium-browserbot.js"></script>
+		<script src="../../../../../../selenium-core/core/scripts/selenium-api.js"></script>
+		<script>
+			var bb = BrowserBot.createForWindow(window);
+			var sel = new Selenium(bb);
+			var AUI = jsloader.resolve("tarah.AUI");
+			var EventHelper = jsloader.resolve("core.EventHelper");
+			var eventHelper = new EventHelper(); 
+			
+			var DEMO = parent==window;
+						
+			function setUp() {
+			}
+			
+			function tearDown() {
+			}			
+			
+		</script>
+		<link href="../../css/default.css" rel="stylesheet" type="text/css"/>
+	</head>
+	<body onload="if(DEMO)setUp();" onunload="if(DEMO)tearDown();">
+		<div id="sheet" class="sheet">
+			<div id="sheet-cornerSlot" class="sheet-cornerSlot">
+			</div>
+			<div id="sheet-colHeaderSlot" class="sheet-colHeaderSlot">
+				<table id="sheet-colHeaderTable" class="sheet-colHeaderTable" cellspacing="0">
+					<tr id="sheet-colHeaderRow" class="sheet-colHeaderRow">
+						<td class="sheet-colHeaderCell" NOWRAP><div class="sheet-colHeaderCellDiv">col-0x y x y x y x y x y x y x y </div></td>
+						<td class="sheet-colHeaderCell" NOWRAP><div class="sheet-colHeaderCellDiv">col-1</div></td>
+						<td class="sheet-colHeaderCell" NOWRAP><div class="sheet-colHeaderCellDiv">col-2</div></td>
+						<td class="sheet-colHeaderCell" NOWRAP><div class="sheet-colHeaderCellDiv">col-3</div></td>
+						<td class="sheet-colHeaderCell" NOWRAP><div class="sheet-colHeaderCellDiv">col-4</div></td>
+						<td class="sheet-colHeaderCell" NOWRAP><div class="sheet-colHeaderCellDiv">col-5</div></td>
+						<td class="sheet-colHeaderCell" NOWRAP><div class="sheet-colHeaderCellDiv">col-6</div></td>
+						<td class="sheet-colHeaderCell" NOWRAP><div class="sheet-colHeaderCellDiv">col-7</div></td>
+					</tr>
+				</table>
+			</div>
+			<div id="sheet-gridSlot" class="sheet-gridSlot">
+				<table id="sheet-gridTable" class="sheet-gridTable" cellspacing="0">
+					<tr class="sheet-gridRow">
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[0,0]x y x y x y x y x y x y x y </div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[0,1]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[0,2]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[0,3]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[0,4]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[0,5]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[0,6]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[0,7]</div></td>
+					</tr>
+					<tr class="sheet-gridRow">
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[1,0]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[1,1]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[1,2]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[1,3]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[1,4]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[1,5]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[1,6]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[1,7]</div></td>
+					</tr>
+					<tr class="sheet-gridRow">
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[2,0]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[2,1]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[2,2]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[2,3]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[2,4]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[2,5]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[2,6]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[2,7]</div></td>
+					</tr>
+					<tr class="sheet-gridRow">
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[3,0]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[3,1]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[3,2]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[3,3]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[3,4]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[3,5]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[3,6]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[3,7]</div></td>
+					</tr>
+					<tr class="sheet-gridRow">
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[4,0]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[4,1]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[4,2]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[4,3]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[4,4]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[4,5]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[4,6]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[4,7]</div></td>
+					</tr>
+					<tr class="sheet-gridRow">
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[5,0]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[5,1]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[5,2]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[5,3]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[5,4]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[5,5]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[5,6]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[5,7]</div></td>
+					</tr>
+					<tr class="sheet-gridRow">
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[6,0]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[6,1]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[6,2]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[6,3]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[6,4]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[6,5]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[6,6]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[6,7]</div></td>
+					</tr>
+					<tr class="sheet-gridRow">
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[7,0]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[7,1]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[7,2]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[7,3]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[7,4]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[7,5]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[7,6]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[7,7]</div></td>
+					</tr>
+					<tr class="sheet-gridRow">
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[8,0]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[8,1]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[8,2]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[8,3]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[8,4]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[8,5]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[8,6]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[8,7]</div></td>
+					</tr>
+					<tr class="sheet-gridRow">
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[9,0]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[9,1]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[9,2]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[9,3]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[9,4]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[9,5]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[9,6]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[9,7]</div></td>
+					</tr>
+					<tr class="sheet-gridRow">
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[10,0]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[10,1]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[10,2]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[10,3]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[10,4]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[10,5]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[10,6]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[10,7]</div></td>
+					</tr>
+					<tr class="sheet-gridRow">
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[11,0]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[11,1]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[11,2]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[11,3]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[11,4]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[11,5]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[11,6]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[11,7]</div></td>
+					</tr>
+					<tr class="sheet-gridRow">
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[12,0]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[12,1]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[12,2]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[12,3]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[12,4]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[12,5]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[12,6]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[12,7]</div></td>
+					</tr>
+					<tr class="sheet-gridRow">
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[13,0]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[13,1]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[13,2]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[13,3]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[13,4]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[13,5]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[13,6]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[13,7]</div></td>
+					</tr>
+					<tr class="sheet-gridRow">
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[14,0]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[14,1]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[14,2]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[14,3]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[14,4]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[14,5]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[14,6]</div></td>
+						<td class="sheet-gridCell" NOWRAP><div class="sheet-gridCellDiv">a[14,7]</div></td>
+					</tr>
+				</table>
+			</div>
+			<div id="sheet-rowHeaderSlot" class="sheet-rowHeaderSlot">
+				<table id="sheet-rowHeaderTable" class="sheet-rowHeaderTable" cellspacing="0">
+					<tr class="sheet-rowHeaderRow">
+						<td class="sheet-rowHeaderCell" NOWRAP><div class="sheet-rowHeaderCellDiv">0</div></td>
+					</tr>
+					<tr class="sheet-rowHeaderRow">
+						<td class="sheet-rowHeaderCell" NOWRAP><div class="sheet-rowHeaderCellDiv">1 </div></td>
+					</tr>
+					<tr class="sheet-rowHeaderRow">
+						<td class="sheet-rowHeaderCell" NOWRAP><div class="sheet-rowHeaderCellDiv">2 </div></td>
+					</tr>
+					<tr class="sheet-rowHeaderRow">
+						<td class="sheet-rowHeaderCell" NOWRAP><div class="sheet-rowHeaderCellDiv">3 </div></td>
+					</tr>
+					<tr class="sheet-rowHeaderRow">
+						<td class="sheet-rowHeaderCell" NOWRAP><div class="sheet-rowHeaderCellDiv">4 </div></td>
+					</tr>
+					<tr class="sheet-rowHeaderRow">
+						<td class="sheet-rowHeaderCell" NOWRAP><div class="sheet-rowHeaderCellDiv">5 </div></td>
+					</tr>
+					<tr class="sheet-rowHeaderRow">
+						<td class="sheet-rowHeaderCell" NOWRAP><div class="sheet-rowHeaderCellDiv">6 </div></td>
+					</tr>
+					<tr class="sheet-rowHeaderRow">
+						<td class="sheet-rowHeaderCell" NOWRAP><div class="sheet-rowHeaderCellDiv">7 </div></td>
+					</tr>
+					<tr class="sheet-rowHeaderRow">
+						<td class="sheet-rowHeaderCell" NOWRAP><div class="sheet-rowHeaderCellDiv">8 </div></td>
+					</tr>
+					<tr class="sheet-rowHeaderRow">
+						<td class="sheet-rowHeaderCell" NOWRAP><div class="sheet-rowHeaderCellDiv">9 </div></td>
+					</tr>
+					<tr class="sheet-rowHeaderRow">
+						<td class="sheet-rowHeaderCell" NOWRAP><div class="sheet-rowHeaderCellDiv">10 </div></td>
+					</tr>
+					<tr class="sheet-rowHeaderRow">
+						<td class="sheet-rowHeaderCell" NOWRAP><div class="sheet-rowHeaderCellDiv">11 </div></td>
+					</tr>
+					<tr class="sheet-rowHeaderRow">
+						<td class="sheet-rowHeaderCell" NOWRAP><div class="sheet-rowHeaderCellDiv">12 </div></td>
+					</tr>
+					<tr class="sheet-rowHeaderRow">
+						<td class="sheet-rowHeaderCell" NOWRAP><div class="sheet-rowHeaderCellDiv">13 </div></td>
+					</tr>
+					<tr class="sheet-rowHeaderRow">
+						<td class="sheet-rowHeaderCell" NOWRAP><div class="sheet-rowHeaderCellDiv">14 </div></td>
+					</tr>
+				</table>
+			</div>
+		</div>		
+	</body>
+	<script>
+		if ( domutils.isFF() ) {
+			document.getElementById("sheet-cornerSlot").style.width = "48px";
+			document.getElementById("sheet-cornerSlot").style.height = "18px";
+		}
+		document.getElementById("sheet-colHeaderSlot").style.width = ( 350 - document.getElementById("sheet-gridSlot").offsetWidth + document.getElementById("sheet-gridSlot").clientWidth ) + "px";
+		document.getElementById("sheet-rowHeaderSlot").style.height = ( 280 - document.getElementById("sheet-gridSlot").offsetHeight + document.getElementById("sheet-gridSlot").clientHeight ) + "px";
+		eventHelper.attachListener(document.getElementById("sheet-gridSlot"), "scroll", function() {
+			document.getElementById("sheet-colHeaderSlot").scrollLeft = document.getElementById("sheet-gridSlot").scrollLeft;
+			document.getElementById("sheet-rowHeaderSlot").scrollTop = document.getElementById("sheet-gridSlot").scrollTop;
+		});
+		eventHelper.attachListener(document.getElementById("sheet-colHeaderSlot"), "mouseover", function(ev) {
+			var target = ev.target;
+			if ( target.tagName && "TD" == target.tagName ) {
+				var offset = domutils.getCumulativeOffset(target);
+				var offsetX = ev.clientX - offset.left;
+				if ( offsetX <= 4 || target.offsetWidth - offsetX <= 4 ) {
+					document.body.style.cursor = "e-resize";
+				}
+			}
+		});
+		eventHelper.attachListener(document.getElementById("sheet-colHeaderSlot"), "mouseout", function(ev) {
+			var target = ev.target;
+			if ( target.tagName && "TD" == target.tagName ) {
+				var offset = domutils.getCumulativeOffset(target);
+				var offsetX = ev.clientX - offset.left;
+				document.body.style.cursor = "default";
+			}
+		});
+	</script>	
+</html>

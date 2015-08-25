@@ -1,0 +1,2 @@
+17:16 2007-7-31
+	try/catch是一个有点烦人的结构，在进行远程调用时，例如getModel，该如何对RemoteException和ApplicationException进行处理

@@ -1,0 +1,25 @@
+<html>
+	<head>
+    	<title>AllTests</title>
+		<script src="../../../../../jsunit/app/jsUnitCore.js"></script>
+	    <script>
+	    	var baseURL = document.URL.substring(0,document.URL.indexOf("test")+5);
+
+	        function tarahSuite() {
+	            var result = new top.jsUnitTestSuite();
+	            result.addTestPage(baseURL+"tarah/LoginTest.html");	            
+	            result.addTestPage(baseURL+"tarah/ApplicationTest.html");
+	            return result;
+	        }
+		
+	        function suite() {
+	            var newsuite = new top.jsUnitTestSuite();
+	            newsuite.addTestSuite(tarahSuite());
+	            return newsuite;
+	        }
+	    </script>
+	</head>
+
+	<body>
+	</body>
+</html>

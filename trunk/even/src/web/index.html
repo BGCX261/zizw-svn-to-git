@@ -1,0 +1,21 @@
+
+<html>
+	<head>
+		<title>Even</title>
+		<script src="js/lang/JSLoader.js"></script>
+		<script>
+			function init() {
+				var ViewController = jsloader.resolve("even.ViewController");
+				var View = jsloader.resolve("even.View");
+				viewController = new View(
+					ViewController, 
+					document.body,
+					{width: 300, height: 25});
+			}
+			function destroy() {
+			}
+		</script>
+	</head>
+	<body onload="init()" onunload="destroy()">
+	</body>
+</html>

@@ -1,0 +1,19 @@
+<html>
+	<head>
+		<title>Tarah</title>
+		<script src="js/core/JSLoader.js"></script>
+		<script>
+			var jsloader = new JSLoader();
+			var MainFrame = jsloader.resolve("tarah.MainFrame");
+			var mainFrame;
+			function init() {
+				mainFrame = new MainFrame();
+			}
+			function destroy() {
+				mainFrame.destroy();
+			}
+		</script>
+	</head>
+	<body onload="init()" onunload="destroy()">
+	</body>
+</html>

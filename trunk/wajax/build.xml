@@ -1,0 +1,99 @@
+
+<project default="nop">
+
+	<property name="jsunit-dir" value="${basedir}/test/jsunit"></property>
+	<property name="webroot-dir" value="${basedir}/src"></property>
+	
+	<property file="build.properties">
+	<!-- build.properties should define the following properties:
+	jsunit-home=
+	-->
+	</property>
+		
+	<target name="nop"></target>
+	
+	<target name="init-project" depends="clean-project">
+		
+		<!-- init jsunit dir -->
+		<mkdir dir="${jsunit-dir}"/>
+		<copy todir="${jsunit-dir}">
+			<fileset dir="${jsunit-home}"></fileset>
+		</copy>
+		
+		<!-- create a scratch.html for spike -->
+		<touch file="${basedir}/scratch.html"></touch>
+		
+		<!-- construct test environment -->
+		<concat destfile="${webroot-dir}/fileInWebRoot">fileInWebRoot</concat>
+		<mkdir dir="${webroot-dir}/wajax-testbed"/>
+		<mkdir dir="${webroot-dir}/wajax-testbed/dir"/>
+		<concat destfile="${webroot-dir}/wajax-testbed/fileInSubDir">fileInSubDir</concat>
+		<concat destfile="${webroot-dir}/wajax-testbed/dir/loadObject.js">
+			var loadObject = { value: true };
+		</concat>
+		<concat destfile="${webroot-dir}/wajax-testbed/cacheObject.js">
+			var cacheObject = { value: true };
+		</concat>
+		<concat destfile="${webroot-dir}/wajax-testbed/badObject.js">
+			var badObject = { value: true ;
+		</concat>
+		<concat destfile="${webroot-dir}/wajax-testbed/maliciousObject.js">
+			var maliciousObject = {
+				tempJsloader: null,
+				setJsloaderToNull: function() {
+					this.tempJsloader = jsloader;
+					jsloader = null;
+				},
+				restoreJsloader: function() {
+					jsloader = this.tempJsloader;
+				},
+				setLoadToNull: function() {
+					jsloader.load = null;
+				}
+			};			
+		</concat>
+		<concat destfile="${webroot-dir}/wajax-testbed/innocentObject.js">
+			var innocentObject = {
+				getJsloader: function() {
+					return jsloader;
+				},
+				getLoad: function() {
+					return jsloader.load;
+				}
+			};			
+		</concat>
+		<concat destfile="${webroot-dir}/wajax-testbed/loadingObject.js">
+			var loadingObject = {
+				doLoad: function() {
+					return jsloader.resolve("wajax-testbed.loadedObject");
+				}
+			};
+		</concat>
+		<concat destfile="${webroot-dir}/wajax-testbed/loadedObject.js">
+			var loadedObject = { value: true };
+		</concat>
+		<concat destfile="${webroot-dir}/wajax-testbed/defaultImportedA.js">
+			var defaultImportedA = { value: "defaultImportedA" };
+		</concat>
+		<concat destfile="${webroot-dir}/wajax-testbed/defaultImportedB.js">
+			var defaultImportedB = { value: "defaultImportedB" };
+		</concat>
+		<concat destfile="${webroot-dir}/wajax-testbed/defaultImportingObject.js">
+			var defaultImportingObject = {
+				getA: function() {
+					return defaultImportedA.value;
+				},
+				getB: function() {
+					return defaultImportedB.value;
+				}
+			};
+		</concat>
+	</target>
+	
+	<target name="clean-project">
+		<delete dir="${jsunit-dir}"/>
+		<delete dir="${webroot-dir}/wajax-testbed"/>
+		<delete file="${webroot-dir}/fileInWebRoot"/>
+		<delete file="${basedir}/scratch.html"/>
+	</target>
+</project>

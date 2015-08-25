@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+xmlns:svg="http://www.w3.org/2000/svg" 
+xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+>
+<head>
+
+</head>
+<body>
+  <svg:svg width="180px" height="130px" style="display:block;">
+      
+        <svg:path d="
+        	M0,100 
+        	A80,80 0 0 1 120,30.718
+        	L110,48.0385 
+        	A60,60 0 0 0 20,100
+        	Z
+        	" fill="lightgreen" stroke="black" stroke-width="1"/>
+        	  
+        <svg:path d="
+        	M120,30.718
+        	A80,80 0 0 1 149.2820,60
+        	L131.9615,70
+        	A60,60 0 0 0 110,48.0385 
+        	" fill="yellow" stroke="black" stroke-width="1"/>
+        	
+        <svg:path d="
+        	M149.2820,60
+        	A80,80 0 0 1 160,100
+        	L140,100
+        	A60,60 0 0 0 131.9615,70  
+        	" fill="red" stroke="black" stroke-width="1"/>
+        	
+        <svg:path d="
+        	M78,100
+        	L82,100
+        	L40,40
+        	z  
+        	" fill="black" stroke="black" stroke-width="1"/>
+        	        	
+		<svg:text x="135" y="110" fill = "navy" font-size = "10">
+        	1050.00
+    	</svg:text>        	
+
+		<svg:text x="0" y="110" fill = "navy" font-size = "10">
+        	0.00
+    	</svg:text>        	
+    	    	
+		<svg:text x="152" y="60" fill = "navy" font-size = "10">
+        	750.00
+    	</svg:text>
+    	
+		<svg:text x="122" y="28" fill = "navy" font-size = "10">
+        	550.00
+    	</svg:text>
+    	
+		<svg:text x="70" y="120" fill = "navy" font-size = "10">
+        	370.00
+    	</svg:text>
+  </svg:svg>
+</body>
+</html>
+
+<!-- 
+M275,175 
+V25 
+A150,150 0 0,0 125,175 
+z
+
+      <svg:path d="M275,175 V5 A170,170 0 0 0 105,175"
+            fill="yellow" stroke="blue" stroke-width="1"/>
+            
+            M0,100 A80,80 0 0 0 160,100 
+-->
